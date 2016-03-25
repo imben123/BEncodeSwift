@@ -10,7 +10,7 @@ import Foundation
 
 public typealias Byte = UInt8
 
-extension NSData {
+public extension NSData {
     
     convenience init(byteArray: [UInt8]) {
         let pointer = UnsafePointer<Byte>(byteArray)
@@ -47,7 +47,7 @@ extension NSData {
     
 }
 
-extension NSMutableData {
+public extension NSMutableData {
     
     func andData(data: NSData) -> NSMutableData {
         self.appendData(data)
@@ -56,7 +56,7 @@ extension NSMutableData {
     
 }
 
-extension UInt8 {
+public extension UInt8 {
     
     func toData() -> NSData {
         return NSData(byteArray: [self])

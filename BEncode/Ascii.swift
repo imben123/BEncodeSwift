@@ -8,11 +8,11 @@
 
 import Foundation
 
-enum AsciiError: ErrorType {
+public enum AsciiError: ErrorType {
     case Invalid
 }
 
-extension UInt8 {
+public extension UInt8 {
     
     func asciiValue() throws -> UInt8 {
         if self >= 10 {
@@ -30,7 +30,7 @@ extension UInt8 {
     
 }
 
-extension Int {
+public extension Int {
     
     func digitsInAscii() -> NSData {
         let (head, tailByte) = self.splitAndAsciiEncodeLastDigit()
@@ -82,7 +82,7 @@ extension Int {
     
 }
 
-extension Int {
+public extension Int {
     
     func appendAsciiDigit(asciiDigit: Byte) throws -> Int {
         let digit = Int(try asciiDigit.fromAsciiValue())
@@ -91,7 +91,7 @@ extension Int {
     
 }
 
-extension Character {
+public extension Character {
     
     func asciiValue() throws -> NSData {
         let unicodeScalarCodePoint = self.unicodeScalarCodePoint()
@@ -109,7 +109,7 @@ extension Character {
     
 }
 
-extension String {
+public extension String {
     
     init?(asciiData: NSData) {
         self.init(data: asciiData, encoding: NSASCIIStringEncoding)
