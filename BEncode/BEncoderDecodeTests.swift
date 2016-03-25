@@ -384,4 +384,35 @@ class BEncoderDecodeTests: XCTestCase {
         XCTAssertEqual(decodedDictionary[key1] as? Int, integer)
         XCTAssertEqual(decodedDictionary[key2] as? NSData, byteString)
     }
+    
+    func testDecodeDictionaryKeysOnly() {
+        let key1 = try! "key1".asciiValue()
+        let integer = 5
+        let encodedInteger = try! BEncoder.encode(integer)
+        
+        let key2 = try! "key2".asciiValue()
+        let byteString = NSData(byteArray: [0,5,255])
+        let encodedByteString = try! BEncoder.encode(byteString)
+        
+        let key3 = try! "key3".asciiValue()
+        let list = [integer, byteString]
+        let encodedList = try! BEncoder.encode(list)
+        
+        let key4 = try! "key4".asciiValue()
+        let dictionary = [key1:integer, key2:byteString]
+        let encodedDictionary = try! BEncoder.encode(dictionary)
+
+        let input = try! BEncoder.encode([
+            key1 : integer,
+            key2 : byteString,
+            key3 : list,
+            key4 : dictionary,
+            ])
+        
+        let result = try! BEncoder.decodeDictionaryKeysOnly(input)
+        XCTAssertEqual(result[key1], encodedInteger)
+        XCTAssertEqual(result[key2], encodedByteString)
+        XCTAssertEqual(result[key3], encodedList)
+        XCTAssertEqual(result[key4], encodedDictionary)
+    }
 }
