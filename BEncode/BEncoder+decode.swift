@@ -22,15 +22,23 @@ public extension BEncoder {
      BEncoded data
      */
     public class func decode(byteStream: ByteStream) throws -> AnyObject {
+        return try self.decode(byteStream, decodeDictionariesWithStringKeys: false)
+    }
+    
+    public class func decode(byteStream: ByteStream, decodeDictionariesWithStringKeys: Bool) throws -> AnyObject {
         let firstByte = byteStream.nextByte()
         byteStream.advanceBy(-1)
-
+        
         if firstByte == ascii_i {
             return try self.decodeInteger(byteStream)
         } else if firstByte == ascii_l {
             return try self.decodeList(byteStream)
         } else if firstByte == ascii_d {
-            return try self.decodeDictionary(byteStream)
+            if decodeDictionariesWithStringKeys {
+                return try self.decodeStringKeyedDictionary(byteStream)
+            } else {
+                return try self.decodeDictionary(byteStream)
+            }
         } else {
             return try self.decodeByteString(byteStream)
         }
@@ -41,6 +49,10 @@ public extension BEncoder {
      */
     public class func decode(data: NSData) throws -> AnyObject {
         return try self.decode(NSDataByteStream(data: data))
+    }
+    
+    public class func decode(data: NSData, decodeDictionariesWithStringKeys stringKeys: Bool) throws -> AnyObject {
+        return try self.decode(NSDataByteStream(data: data), decodeDictionariesWithStringKeys: stringKeys)
     }
 
     public class func decodeInteger(data: NSData) throws -> Int {
@@ -91,7 +103,7 @@ public extension BEncoder {
         return try self.decodeByteString(NSDataByteStream(data: data))
     }
     
-    class func decodeByteString(byteStream: ByteStream) throws -> NSData {
+    public class func decodeByteString(byteStream: ByteStream) throws -> NSData {
         let numberOfBytes = try self.buildAsciiIntegerFromStream(byteStream, terminator: ascii_colon)
         if !byteStream.indexIsValid(byteStream.currentIndex + numberOfBytes) {
             throw BEncoderException.InvalidBEncode
@@ -150,6 +162,32 @@ public extension BEncoder {
             
             let key = try self.decodeByteString(byteStream)
             let object = try self.decode(byteStream)
+            
+            result[key] = object
+            
+            currentByte = byteStream.nextByte()
+            
+        }
+        return result
+    }
+    
+    public class func decodeStringKeyedDictionary(data: NSData) throws -> [String: AnyObject] {
+        return try self.decodeStringKeyedDictionary(NSDataByteStream(data: data))
+    }
+    
+    public class func decodeStringKeyedDictionary(byteStream: ByteStream) throws -> [String: AnyObject] {
+        
+        var result: [String : AnyObject] = [:]
+        
+        var currentByte = byteStream.nextByte()
+        currentByte = byteStream.nextByte()
+        
+        while currentByte != ascii_e {
+            
+            byteStream.advanceBy(-1)
+            
+            let key = try self.decodeString(byteStream)
+            let object = try self.decode(byteStream, decodeDictionariesWithStringKeys: true)
             
             result[key] = object
             
