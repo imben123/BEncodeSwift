@@ -159,13 +159,13 @@ public extension BEncoder {
         return result
     }
     
-    public class func decodeDictionaryKeysOnly(data: NSData) throws -> [NSData: NSData] {
+    public class func decodeDictionaryKeysOnly(data: NSData) throws -> [String: NSData] {
         return try self.decodeDictionaryKeysOnly(NSDataByteStream(data: data))
     }
     
-    public class func decodeDictionaryKeysOnly(byteStream: ByteStream) throws -> [NSData: NSData] {
+    public class func decodeDictionaryKeysOnly(byteStream: ByteStream) throws -> [String: NSData] {
         
-        var result: [NSData:NSData] = [:]
+        var result = [String:NSData]()
         
         var currentByte = byteStream.nextByte()
         currentByte = byteStream.nextByte()
@@ -174,7 +174,7 @@ public extension BEncoder {
             
             byteStream.advanceBy(-1)
             
-            let key = try self.decodeByteString(byteStream)
+            let key = try self.decodeString(byteStream)
             
             let startIndex = byteStream.currentIndex
             let _ = try self.decode(byteStream)

@@ -386,19 +386,19 @@ class BEncoderDecodeTests: XCTestCase {
     }
     
     func testDecodeDictionaryKeysOnly() {
-        let key1 = try! "key1".asciiValue()
+        let key1 = "key1"
         let integer = 5
         let encodedInteger = try! BEncoder.encode(integer)
         
-        let key2 = try! "key2".asciiValue()
+        let key2 = "key2"
         let byteString = NSData(byteArray: [0,5,255])
         let encodedByteString = try! BEncoder.encode(byteString)
         
-        let key3 = try! "key3".asciiValue()
+        let key3 = "key3"
         let list = [integer, byteString]
         let encodedList = try! BEncoder.encode(list)
         
-        let key4 = try! "key4".asciiValue()
+        let key4 = "key4"
         let dictionary = [key1:integer, key2:byteString]
         let encodedDictionary = try! BEncoder.encode(dictionary)
 
