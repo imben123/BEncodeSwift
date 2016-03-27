@@ -111,8 +111,9 @@ public extension Character {
 
 public extension String {
     
-    init?(asciiData: NSData) {
-        self.init(data: asciiData, encoding: NSASCIIStringEncoding)
+    init?(asciiData: NSData?) {
+        if asciiData == nil { return nil }
+        self.init(data: asciiData!, encoding: NSASCIIStringEncoding)
     }
     
     func asciiValue() throws -> NSData {

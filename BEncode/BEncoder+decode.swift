@@ -32,7 +32,7 @@ public extension BEncoder {
         if firstByte == ascii_i {
             return try self.decodeInteger(byteStream)
         } else if firstByte == ascii_l {
-            return try self.decodeList(byteStream)
+            return try self.decodeList(byteStream, decodeDictionariesWithStringKeys: decodeDictionariesWithStringKeys)
         } else if firstByte == ascii_d {
             if decodeDictionariesWithStringKeys {
                 return try self.decodeStringKeyedDictionary(byteStream)
@@ -128,6 +128,15 @@ public extension BEncoder {
     }
     
     public class func decodeList(byteStream: ByteStream) throws -> [AnyObject] {
+        return try self.decodeList(byteStream, decodeDictionariesWithStringKeys: false)
+    }
+    
+    public class func decodeList(data: NSData, decodeDictionariesWithStringKeys stringKeys: Bool) throws -> [AnyObject] {
+        return try self.decodeList(NSDataByteStream(data: data), decodeDictionariesWithStringKeys:stringKeys)
+    }
+    
+    public class func decodeList(byteStream: ByteStream,
+                                 decodeDictionariesWithStringKeys stringKeys: Bool) throws -> [AnyObject] {
         var result: [AnyObject] = []
         let firstByte = byteStream.nextByte()
         
@@ -138,7 +147,7 @@ public extension BEncoder {
         var currentByte = byteStream.nextByte()
         while currentByte != ascii_e {
             byteStream.advanceBy(-1)
-            let object = try self.decode(byteStream)
+            let object = try self.decode(byteStream, decodeDictionariesWithStringKeys: stringKeys)
             result.append(object)
             currentByte = byteStream.nextByte()
         }

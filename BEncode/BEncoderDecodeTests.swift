@@ -424,21 +424,21 @@ class BEncoderDecodeTests: XCTestCase {
         let byteString = NSData(byteArray: [0,5,255])
         
         let key3 = "key3"
-        let list = [integer, byteString]
+        let dictionary = [key1:integer, key2:byteString]
         
         let key4 = "key4"
-        let dictionary = [key1:integer, key2:byteString]
+        let list = [integer, byteString, dictionary]
         
         let input = try! BEncoder.encode([
             key1 : integer,
             key2 : byteString,
-            key3 : list,
-            key4 : dictionary,
+            key3 : dictionary,
+            key4 : list,
             ])
         
         let result = try! BEncoder.decode(input, decodeDictionariesWithStringKeys: true)
-        let decodedList = result[key3]
-        let decodedDictionary = result[key4]
+        let decodedDictionary = result[key3]
+        let decodedList = result[key4]
         XCTAssertEqual(result[key1], integer)
         XCTAssertEqual(result[key2], byteString)
         XCTAssertEqual(decodedList, list)
