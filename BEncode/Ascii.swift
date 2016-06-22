@@ -61,7 +61,7 @@ public extension Int {
 
 		let (headOfData, decodedLastByte) = try self.splitDataAndDecodeLastByte(data)
 		let resultOfDecodingTheHead = try self.fromAsciiData(headOfData)
-		return decodedLastByte + ( 10 * resultOfDecodingTheHead )
+		return decodedLastByte + (10 * resultOfDecodingTheHead )
 	}
 
 	private static func splitDataAndDecodeLastByte(data: NSData) throws -> (NSData, Int) {
@@ -77,17 +77,14 @@ public extension Int {
 	}
 
 	private static func getLastByte(data: NSData) -> UInt8 {
-		let bytePointer = UnsafePointer<UInt8>(data.bytes)
-		let lastBytePointer = bytePointer.advancedBy(data.length-1)
-		return lastBytePointer.memory
+		return UnsafePointer<UInt8>(data.bytes).advancedBy(data.length-1).memory
 	}
 
 }
 
 public extension Int {
 	func appendAsciiDigit(asciiDigit: UInt8) throws -> Int {
-		let digit = Int(try asciiDigit.fromAsciiValue())
-		return self*10 + digit
+		return self*10 + Int(try asciiDigit.fromAsciiValue())
 	}
 }
 
@@ -111,7 +108,10 @@ public extension Character {
 
 public extension String {
 	init?(asciiData: NSData?) {
-		if asciiData == nil { return nil }
+		if asciiData == nil {
+			return nil
+		}
+
 		self.init(data: asciiData!, encoding: NSASCIIStringEncoding)
 	}
 
@@ -119,6 +119,7 @@ public extension String {
 		guard let result = (self as NSString).dataUsingEncoding(NSASCIIStringEncoding) else {
 			throw AsciiError.Invalid
 		}
+
 		return result
 	}
 }

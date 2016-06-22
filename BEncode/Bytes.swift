@@ -10,8 +10,7 @@ import Foundation
 
 public extension NSData {
 	convenience init(byteArray: [UInt8]) {
-		let pointer = UnsafePointer<UInt8>(byteArray)
-		self.init(bytes: pointer, length: byteArray.count)
+		self.init(bytes: UnsafePointer<UInt8>(byteArray), length: byteArray.count)
 	}
 
 	func dataByAppendingData(data: NSData) -> NSData {
@@ -26,9 +25,7 @@ public extension NSData {
 				return nil
 			}
 
-			let originPointer = self.bytes
-			let memoryPointer = UnsafePointer<UInt8>(originPointer.advancedBy(index))
-			return memoryPointer.memory
+			return UnsafePointer<UInt8>(self.bytes.advancedBy(index)).memory
 		}
 	}
 
@@ -59,7 +56,6 @@ public extension UInt8 {
 	}
 
 	static func fromData(byte: NSData) -> UInt8 {
-		let pointer = UnsafePointer<UInt8>(byte.bytes)
-		return pointer.memory
+		return UnsafePointer<UInt8>(byte.bytes).memory
 	}
 }

@@ -47,9 +47,7 @@ class BEncoderTests: XCTestCase {
     func testEncodeByteString() {
         let byteString = NSData(byteArray: [1, 2, 3, 255, 0])
         let data = try! BEncoder.encode(byteString)
-        let expectedResult = try! NSMutableData(data: Character("5").asciiValue())
-            .andData(BEncoder.StringSizeDelimiterToken)
-            .andData(byteString)
+        let expectedResult = try! NSMutableData(data: Character("5").asciiValue()).andData(BEncoder.StringSizeDelimiterToken).andData(byteString)
         XCTAssertEqual(data, expectedResult)
     }
     
@@ -100,7 +98,7 @@ class BEncoderTests: XCTestCase {
         
         let input = [
             123,
-            [ "foo": "bar" ],
+            ["foo": "bar"],
             "baz"
         ]
         
@@ -136,8 +134,8 @@ class BEncoderTests: XCTestCase {
         let data = try! BEncoder.encode([
             NSData(byteArray: [1]) : 1
             ])
-        let expectedResult = NSData(byteArray:
-            [
+
+        let expectedResult = NSData(byteArray: [
                 100,            // d
                 49, 58, 1,      // 1:\0x1
                 105, 49, 101,   // i1e
@@ -175,8 +173,7 @@ class BEncoderTests: XCTestCase {
     }
     
     func testEncodeDictionaryWithNonAsciiStringKeysThrows() {
-        
-        let bEncodedDataDictionary = [
+		let bEncodedDataDictionary = [
             "🙂"  : try! BEncoder.encode("bar"),
             "baz" : try! BEncoder.encode(NSData(byteArray: [0,7,255])),
         ]
@@ -260,8 +257,7 @@ class BEncoderTests: XCTestCase {
     // MARK: - Example inputs
     
     private func exampleListAndExpectedValues() -> (list: [AnyObject], expectedValues: [UInt8]) {
-        
-        let bEncodedDataArray = [
+		let bEncodedDataArray = [
             123,
             0,
             999,

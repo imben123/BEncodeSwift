@@ -43,9 +43,9 @@ public class BEncoder {
 			return self.encodeByteString(object as! NSData)
 		} else if object is [AnyObject] {
 			return try self.encodeList(object as! [AnyObject])
-		} else if object is [String:AnyObject] {
+		} else if object is [String: AnyObject] {
 			return try self.encodeDictionary(object as! [String:AnyObject])
-		} else if object is [NSData:AnyObject] {
+		} else if object is [NSData: AnyObject] {
 			return try self.encodeByteStringKeyedDictionary(object as! [NSData: AnyObject])
 		}
 		
@@ -56,20 +56,14 @@ public class BEncoder {
 	Creates BEncoded integer
 	*/
 	public class func encodeInteger(integer: Int) -> NSData {
-		let data = NSMutableData(data: IntergerStartToken)
-			.andData(integer.digitsInAscii())
-			.andData(StructureEndToken)
-		return data
+		return NSMutableData(data: IntergerStartToken).andData(integer.digitsInAscii()).andData(StructureEndToken)
 	}
 
 	/**
 	Creates a BEncoded byte string
 	*/
 	public class func encodeByteString(byteString: NSData) -> NSData {
-		let numberOfBytes = byteString.length
-		return NSMutableData(data: numberOfBytes.digitsInAscii())
-			.andData(StringSizeDelimiterToken)
-			.andData(byteString)
+		return NSMutableData(data: byteString.length.digitsInAscii()).andData(StringSizeDelimiterToken).andData(byteString)
 	}
 
 	/**
@@ -79,10 +73,7 @@ public class BEncoder {
 	*/
 	public class func encodeString(string: String) throws -> NSData {
 		let asciiString = try self.asciiValue(string)
-		let data = NSMutableData(data: asciiString.length.digitsInAscii())
-			.andData(StringSizeDelimiterToken)
-			.andData(asciiString)
-		return data
+		return NSMutableData(data: asciiString.length.digitsInAscii()).andData(StringSizeDelimiterToken).andData(asciiString)
 	}
 
 	/**
