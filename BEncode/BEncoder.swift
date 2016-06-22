@@ -15,11 +15,11 @@ enum BEncoderException: ErrorType {
 }
 
 public class BEncoder {
-	static let ascii_i:      Byte = 105
-	static let ascii_l:      Byte = 108
-	static let ascii_d:      Byte = 100
-	static let ascii_e:      Byte = 101
-	static let ascii_colon:  Byte = 58
+	static let ascii_i:      UInt8 = 105
+	static let ascii_l:      UInt8 = 108
+	static let ascii_d:      UInt8 = 100
+	static let ascii_e:      UInt8 = 101
+	static let ascii_colon:  UInt8 = 58
 
 	static let IntergerStartToken:       NSData = try! Character("i").asciiValue()
 	static let ListStartToken:           NSData = try! Character("l").asciiValue()

@@ -8,11 +8,9 @@
 
 import Foundation
 
-public typealias Byte = UInt8
-
 public extension NSData {
 	convenience init(byteArray: [UInt8]) {
-		let pointer = UnsafePointer<Byte>(byteArray)
+		let pointer = UnsafePointer<UInt8>(byteArray)
 		self.init(bytes: pointer, length: byteArray.count)
 	}
 
@@ -22,14 +20,14 @@ public extension NSData {
 		return result
 	}
 
-	subscript(index: Int) -> Byte? {
+	subscript(index: Int) -> UInt8? {
 		get {
 			if index < 0 || index >= self.length {
 				return nil
 			}
 
 			let originPointer = self.bytes
-			let memoryPointer = UnsafePointer<Byte>(originPointer.advancedBy(index))
+			let memoryPointer = UnsafePointer<UInt8>(originPointer.advancedBy(index))
 			return memoryPointer.memory
 		}
 	}

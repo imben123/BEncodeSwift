@@ -176,7 +176,7 @@ class BEncoderDecodeTests: XCTestCase {
             ])
         
         let result = try! BEncoder.decodeList(input)
-        let decodedString = String(asciiData: result[2] as! NSData)
+        let decodedString = String(asciiData: result[2] as? NSData)
 
         XCTAssertEqual(result.count, 3)
         XCTAssertEqual(result[0] as? Int, integer)
@@ -202,7 +202,7 @@ class BEncoderDecodeTests: XCTestCase {
         
         let result = try! BEncoder.decodeList(input)
         let nestedResult = result[0] as! [AnyObject];
-        let decodedString = String(asciiData: nestedResult[2] as! NSData)
+        let decodedString = String(asciiData: nestedResult[2] as? NSData)
 
         XCTAssertEqual(result.count, 2)
         XCTAssertEqual(result[1] as? Int, integer)

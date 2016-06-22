@@ -104,7 +104,7 @@ class BEncoderTests: XCTestCase {
             "baz"
         ]
         
-        let expectedResultArray: [Byte] = [
+        let expectedResultArray: [UInt8] = [
             108,                    // l
             
             105, 49, 50, 51, 101,   // i123e
@@ -159,7 +159,7 @@ class BEncoderTests: XCTestCase {
             "baz" : NSData(byteArray: [0,7,255]),
         ]
         
-        var expectedResultArray: [Byte] = [100]                                 // d
+        var expectedResultArray: [UInt8] = [100]                                // d
         
         expectedResultArray.appendContentsOf([51, 58, 102, 111, 111])           // 3:foo
         expectedResultArray.appendContentsOf([51, 58, 98,  97,  114])           // 3:bar
@@ -202,7 +202,7 @@ class BEncoderTests: XCTestCase {
             NSData(byteArray: [255, 255, 255, 255]) : exampleDictionary.dictionary
         ]
         
-        var expectedResultArray: [Byte] = [100]                                 // d
+        var expectedResultArray: [UInt8] = [100]                                // d
         
         expectedResultArray.appendContentsOf([51, 58, 98,  97,  122])           // 3:baz
         expectedResultArray.appendContentsOf([51, 58, 0,   7,   255])           // 3:\0x00\0x07\0xFF
@@ -234,7 +234,7 @@ class BEncoderTests: XCTestCase {
         ]
         
         
-        let expectedResultArray: [Byte] = [
+        let expectedResultArray: [UInt8] = [
             100,                              // d
             
             53, 58, 104, 101, 108, 108, 111,  // 5:hello
@@ -259,7 +259,7 @@ class BEncoderTests: XCTestCase {
 
     // MARK: - Example inputs
     
-    private func exampleListAndExpectedValues() -> (list: [AnyObject], expectedValues: [Byte]) {
+    private func exampleListAndExpectedValues() -> (list: [AnyObject], expectedValues: [UInt8]) {
         
         let bEncodedDataArray = [
             123,
@@ -270,7 +270,7 @@ class BEncoderTests: XCTestCase {
             NSData(byteArray: [0, 1, 2, 3, 255])
         ]
         
-        let expectedResultArray: [Byte] = [
+        let expectedResultArray: [UInt8] = [
             108,                                // l
             105, 49, 50, 51, 101,               // i123e
             105, 48, 101,                       // i0e
@@ -284,7 +284,7 @@ class BEncoderTests: XCTestCase {
         return (bEncodedDataArray, expectedResultArray)
     }
     
-    private func exampleDictionaryAndExpectedValues() -> (dictionary: [NSData:AnyObject], expectedValues: [Byte]) {
+    private func exampleDictionaryAndExpectedValues() -> (dictionary: [NSData:AnyObject], expectedValues: [UInt8]) {
         
         // Order is not maintained by dictionary so this test can fail due to order change
         
@@ -294,7 +294,7 @@ class BEncoderTests: XCTestCase {
             try! "foo".asciiValue()                 : "bar",
         ]
         
-        let expectedResultArray: [Byte] = [
+        let expectedResultArray: [UInt8] = [
             100,                    // d
             
             51, 58, 98,  97,  122,  // 3:baz

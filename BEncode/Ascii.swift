@@ -76,8 +76,8 @@ public extension Int {
 		return (headOfData, lastByte)
 	}
 
-	private static func getLastByte(data: NSData) -> Byte {
-		let bytePointer = UnsafePointer<Byte>(data.bytes)
+	private static func getLastByte(data: NSData) -> UInt8 {
+		let bytePointer = UnsafePointer<UInt8>(data.bytes)
 		let lastBytePointer = bytePointer.advancedBy(data.length-1)
 		return lastBytePointer.memory
 	}
@@ -85,7 +85,7 @@ public extension Int {
 }
 
 public extension Int {
-	func appendAsciiDigit(asciiDigit: Byte) throws -> Int {
+	func appendAsciiDigit(asciiDigit: UInt8) throws -> Int {
 		let digit = Int(try asciiDigit.fromAsciiValue())
 		return self*10 + digit
 	}

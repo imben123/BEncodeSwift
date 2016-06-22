@@ -12,15 +12,15 @@ class NSDataByteStream: ByteStream {
 	var currentIndex = 0
 	private let data: NSData
 	private let length: Int
-	private var pointer: UnsafePointer<Byte>
+	private var pointer: UnsafePointer<UInt8>
 
 	init(data: NSData) {
 		self.data = data
-		self.pointer = UnsafePointer<Byte>(data.bytes)
+		self.pointer = UnsafePointer<UInt8>(data.bytes)
 		self.length = data.length
 	}
 
-	func nextByte() -> Byte? {
+	func nextByte() -> UInt8? {
 		if self.currentIndex == self.length {
 			return nil
 		}

@@ -65,7 +65,7 @@ public extension BEncoder {
 		return try self.buildAsciiIntegerFromStream(byteStream, terminator: ascii_e)
 	}
 
-	private class func buildAsciiIntegerFromStream(byteStream: ByteStream, terminator: Byte) throws -> Int {
+	private class func buildAsciiIntegerFromStream(byteStream: ByteStream, terminator: UInt8) throws -> Int {
 		var currentDigit = byteStream.nextByte()
 		var result: Int = 0
 		while currentDigit != terminator {
@@ -75,14 +75,14 @@ public extension BEncoder {
 		return result
 	}
 
-	private class func testFirstByte(byteStream: ByteStream, expectedFirstByte: Byte) throws {
+	private class func testFirstByte(byteStream: ByteStream, expectedFirstByte: UInt8) throws {
 		let firstByte = byteStream.nextByte()
 		if firstByte != expectedFirstByte {
 			throw BEncoderException.InvalidBEncode
 		}
 	}
 
-	private class func appendNextDigitIfNotNil(integer: Int, currentDigit: Byte?) throws -> Int {
+	private class func appendNextDigitIfNotNil(integer: Int, currentDigit: UInt8?) throws -> Int {
 		if let digit = currentDigit {
 			return try self.appendAsciiDigitToInteger(integer, digit: digit)
 		} else {

@@ -11,7 +11,7 @@ import Foundation
 public protocol ByteStream {
 	var currentIndex: Int { get }
 
-	func nextByte() -> Byte?
+	func nextByte() -> UInt8?
 
 	func nextBytes(numberOfBytes: Int) -> NSData?
 

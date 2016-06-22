@@ -24,8 +24,8 @@ class BytesTests: XCTestCase {
 		let integer: UInt8 = 123
 		let data = integer.toData()
 
-		let pointer = UnsafePointer<Byte>(data.bytes)
-		let value: Byte = pointer.memory
+		let pointer = UnsafePointer<UInt8>(data.bytes)
+		let value: UInt8 = pointer.memory
 		XCTAssertEqual(value, integer)
 	}
 
@@ -43,7 +43,7 @@ class BytesTests: XCTestCase {
 
 	func testGetByteAtIndex() {
 		let data = NSData(byteArray: [0,1,2,3,4,5])
-		for i: Byte in 0...5 {
+		for i: UInt8 in 0...5 {
 			XCTAssertEqual(data[Int(i)], i)
 		}
 	}
