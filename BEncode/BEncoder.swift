@@ -46,7 +46,7 @@ public class BEncoder {
 		} else if object is [String:AnyObject] {
 			return try self.encodeDictionary(object as! [String:AnyObject])
 		} else if object is [NSData:AnyObject] {
-			return try self.encodeByteStringKeyedDictionary(object as! [NSData:AnyObject])
+			return try self.encodeByteStringKeyedDictionary(object as! [NSData: AnyObject])
 		}
 		
 		throw BEncoderException.UnrepresentableObject
@@ -116,7 +116,7 @@ public class BEncoder {
 	- throws: BEncoderException if any of the objects are not BEncode-able
 
 	*/
-	public class func encodeByteStringKeyedDictionary(dictionary: [NSData:AnyObject]) throws -> NSData {
+	public class func encodeByteStringKeyedDictionary(dictionary: [NSData: AnyObject]) throws -> NSData {
 		let innerData = try encodeDictionaryInnerValues(dictionary)
 		return NSMutableData(data: DictinaryStartToken).andData(innerData).andData(StructureEndToken)
 	}
@@ -149,7 +149,7 @@ public class BEncoder {
 		return NSMutableData(data: DictinaryStartToken).andData(innerData).andData(StructureEndToken)
 	}
 
-	private class func createDictionaryWithEncodedKeys(dictionary: [String:AnyObject]) throws -> [NSData:AnyObject] {
+	private class func createDictionaryWithEncodedKeys(dictionary: [String:AnyObject]) throws -> [NSData: AnyObject] {
 		var dictionaryWithEncodedKeys: [NSData: AnyObject] = [:]
 
 		for (key, value) in dictionary {

@@ -45,7 +45,7 @@ class BEncoderTests: XCTestCase {
     }
     
     func testEncodeByteString() {
-        let byteString = NSData(byteArray: [ 1, 2, 3, 255, 0])
+        let byteString = NSData(byteArray: [1, 2, 3, 255, 0])
         let data = try! BEncoder.encode(byteString)
         let expectedResult = try! NSMutableData(data: Character("5").asciiValue())
             .andData(BEncoder.StringSizeDelimiterToken)
@@ -156,7 +156,7 @@ class BEncoderTests: XCTestCase {
     func testEncodeDictionaryWithStringKeys() {
         let bEncodedDataDictionary = [
             "foo" : "bar",
-            "baz" : NSData(byteArray: [0,7,255]),
+            "baz" : NSData(byteArray: [0, 7, 255]),
         ]
         
         var expectedResultArray: [UInt8] = [100]                                // d
@@ -197,7 +197,7 @@ class BEncoderTests: XCTestCase {
         let bEncodedDataDictionary = [
             NSData(byteArray: [1])                  : 1,
             try! "foo".asciiValue()                 : "bar",
-            try! "baz".asciiValue()                 : NSData(byteArray: [0,7,255]),
+            try! "baz".asciiValue()                 : NSData(byteArray: [0, 7, 255]),
             NSData(byteArray: [0])                  : exampleList.list,
             NSData(byteArray: [255, 255, 255, 255]) : exampleDictionary.dictionary
         ]
