@@ -10,8 +10,7 @@ import XCTest
 @testable import BEncode
 
 class BEncoderTests: XCTestCase {
-    
-    override func setUp() {
+	override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -319,6 +318,5 @@ class BEncoderTests: XCTestCase {
         assertExceptionThrown(BEncoderException.UnrepresentableObject) {
             let _ = try BEncoder.encode(UIView())
         }
-    }
-    
+    }    
 }

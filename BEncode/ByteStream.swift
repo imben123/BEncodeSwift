@@ -9,15 +9,13 @@
 import Foundation
 
 public protocol ByteStream {
-    
-    var currentIndex: Int { get }
-    
-    func nextByte() -> Byte?
-    
-    func nextBytes(numberOfBytes: Int) -> NSData?
+	var currentIndex: Int { get }
 
-    func indexIsValid(index: Int) -> Bool
-    
-    func advanceBy(numberOfBytes: Int)
+	func nextByte() -> Byte?
 
+	func nextBytes(numberOfBytes: Int) -> NSData?
+
+	func indexIsValid(index: Int) -> Bool
+
+	func advanceBy(numberOfBytes: Int)
 }

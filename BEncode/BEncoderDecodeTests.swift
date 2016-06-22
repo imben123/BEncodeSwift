@@ -10,8 +10,7 @@ import XCTest
 @testable import BEncode
 
 class BEncoderDecodeTests: XCTestCase {
-
-    // MARK: - Integers
+	// MARK: - Integers
     
     func testCanDecodeInteger() {
         encodeIntegerAndTestDecode(0)

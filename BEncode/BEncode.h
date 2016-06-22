@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double BEncodeVersionNumber;
 FOUNDATION_EXPORT const unsigned char BEncodeVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <BEncode/PublicHeader.h>
-
-
