@@ -90,7 +90,9 @@ public class BEncoder {
 	}
 
 	private class func encodeListInnerValues(list: [AnyObject]) throws -> NSData {
-		return try list.reduce(NSMutableData()) { (result: NSMutableData, item: AnyObject) throws -> NSMutableData in
+		return try list.reduce(NSMutableData()) {
+			(result: NSMutableData, item: AnyObject) throws -> NSMutableData in
+			
 			let encodedItem = try self.encode(item)
 			result.appendData(encodedItem)
 			return result
