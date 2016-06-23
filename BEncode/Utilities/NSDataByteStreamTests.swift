@@ -10,8 +10,7 @@ import XCTest
 @testable import BEncode
 
 class NSDataByteStreamTests: XCTestCase {
-    
-    func testCanCreateByteStreamWithData() {
+	func testCanCreateByteStreamWithData() {
         let _ = NSDataByteStream(data: NSData())
     }
     

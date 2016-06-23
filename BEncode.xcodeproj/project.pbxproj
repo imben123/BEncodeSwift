@@ -7,19 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74AA86211D1AF34600980175 /* Utilities in Resources */ = {isa = PBXBuildFile; fileRef = 74AA86201D1AF34600980175 /* Utilities */; };
+		74AA862B1D1AF3AC00980175 /* Ascii.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AA86241D1AF3AC00980175 /* Ascii.swift */; };
+		74AA862D1D1AF3AC00980175 /* Bytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AA86261D1AF3AC00980175 /* Bytes.swift */; };
+		74AA862F1D1AF3AC00980175 /* ByteStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AA86281D1AF3AC00980175 /* ByteStream.swift */; };
+		74AA86301D1AF3AC00980175 /* NSDataByteStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AA86291D1AF3AC00980175 /* NSDataByteStream.swift */; };
+		74AA86331D1AF3C400980175 /* AsciiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AA86251D1AF3AC00980175 /* AsciiTests.swift */; };
+		74AA86341D1AF3C600980175 /* BytesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AA86271D1AF3AC00980175 /* BytesTests.swift */; };
+		74AA86351D1AF3C900980175 /* NSDataByteStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AA862A1D1AF3AC00980175 /* NSDataByteStreamTests.swift */; };
 		B54D0BDF1CA53299004343BD /* BEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = B54D0BDE1CA53299004343BD /* BEncode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B54D0BE61CA5329A004343BD /* BEncode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54D0BDB1CA53299004343BD /* BEncode.framework */; };
 		B54D0BFA1CA532FD004343BD /* BEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0BF61CA532FD004343BD /* BEncoder.swift */; };
 		B54D0BFC1CA532FD004343BD /* BEncoder+decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0BF81CA532FD004343BD /* BEncoder+decode.swift */; };
-		B54D0C051CA53307004343BD /* Bytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0BFE1CA53307004343BD /* Bytes.swift */; };
-		B54D0C071CA53307004343BD /* Ascii.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0C001CA53307004343BD /* Ascii.swift */; };
-		B54D0C091CA53307004343BD /* ByteStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0C021CA53307004343BD /* ByteStream.swift */; };
-		B54D0C0A1CA53307004343BD /* NSDataByteStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0C031CA53307004343BD /* NSDataByteStream.swift */; };
 		B54D0C0C1CA53314004343BD /* BEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0BF71CA532FD004343BD /* BEncoderTests.swift */; };
 		B54D0C0D1CA53314004343BD /* BEncoderDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0BF91CA532FD004343BD /* BEncoderDecodeTests.swift */; };
-		B54D0C0E1CA53314004343BD /* BytesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0BFF1CA53307004343BD /* BytesTests.swift */; };
-		B54D0C0F1CA53314004343BD /* AsciiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0C011CA53307004343BD /* AsciiTests.swift */; };
-		B54D0C101CA53314004343BD /* NSDataByteStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0C041CA53307004343BD /* NSDataByteStreamTests.swift */; };
 		B54D0C121CA53347004343BD /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0C111CA53347004343BD /* TestHelpers.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		74AA86201D1AF34600980175 /* Utilities */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Utilities; path = /Users/giuliolombardo/Desktop/BEncodeSwift/BEncode/Utilities; sourceTree = "<absolute>"; };
+		74AA86241D1AF3AC00980175 /* Ascii.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ascii.swift; sourceTree = "<group>"; };
+		74AA86251D1AF3AC00980175 /* AsciiTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsciiTests.swift; sourceTree = "<group>"; };
+		74AA86261D1AF3AC00980175 /* Bytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bytes.swift; sourceTree = "<group>"; };
+		74AA86271D1AF3AC00980175 /* BytesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BytesTests.swift; sourceTree = "<group>"; };
+		74AA86281D1AF3AC00980175 /* ByteStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteStream.swift; sourceTree = "<group>"; };
+		74AA86291D1AF3AC00980175 /* NSDataByteStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataByteStream.swift; sourceTree = "<group>"; };
+		74AA862A1D1AF3AC00980175 /* NSDataByteStreamTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataByteStreamTests.swift; sourceTree = "<group>"; };
 		B54D0BDB1CA53299004343BD /* BEncode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BEncode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54D0BDE1CA53299004343BD /* BEncode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BEncode.h; sourceTree = "<group>"; };
 		B54D0BE01CA53299004343BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -43,13 +52,6 @@
 		B54D0BF71CA532FD004343BD /* BEncoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BEncoderTests.swift; sourceTree = "<group>"; };
 		B54D0BF81CA532FD004343BD /* BEncoder+decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BEncoder+decode.swift"; sourceTree = "<group>"; };
 		B54D0BF91CA532FD004343BD /* BEncoderDecodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BEncoderDecodeTests.swift; sourceTree = "<group>"; };
-		B54D0BFE1CA53307004343BD /* Bytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bytes.swift; sourceTree = "<group>"; };
-		B54D0BFF1CA53307004343BD /* BytesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BytesTests.swift; sourceTree = "<group>"; };
-		B54D0C001CA53307004343BD /* Ascii.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ascii.swift; sourceTree = "<group>"; };
-		B54D0C011CA53307004343BD /* AsciiTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsciiTests.swift; sourceTree = "<group>"; };
-		B54D0C021CA53307004343BD /* ByteStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteStream.swift; sourceTree = "<group>"; };
-		B54D0C031CA53307004343BD /* NSDataByteStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataByteStream.swift; sourceTree = "<group>"; };
-		B54D0C041CA53307004343BD /* NSDataByteStreamTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDataByteStreamTests.swift; sourceTree = "<group>"; };
 		B54D0C111CA53347004343BD /* TestHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,6 +74,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		74AA86231D1AF3AC00980175 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				74AA86241D1AF3AC00980175 /* Ascii.swift */,
+				74AA86251D1AF3AC00980175 /* AsciiTests.swift */,
+				74AA86261D1AF3AC00980175 /* Bytes.swift */,
+				74AA86271D1AF3AC00980175 /* BytesTests.swift */,
+				74AA86281D1AF3AC00980175 /* ByteStream.swift */,
+				74AA86291D1AF3AC00980175 /* NSDataByteStream.swift */,
+				74AA862A1D1AF3AC00980175 /* NSDataByteStreamTests.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		B54D0BD11CA53299004343BD = {
 			isa = PBXGroup;
 			children = (
@@ -98,7 +114,7 @@
 				B54D0BF71CA532FD004343BD /* BEncoderTests.swift */,
 				B54D0BF81CA532FD004343BD /* BEncoder+decode.swift */,
 				B54D0BF91CA532FD004343BD /* BEncoderDecodeTests.swift */,
-				B54D0BF51CA532DF004343BD /* Utilities */,
+				74AA86231D1AF3AC00980175 /* Utilities */,
 				B54D0BE01CA53299004343BD /* Info.plist */,
 			);
 			path = BEncode;
@@ -111,20 +127,6 @@
 				B54D0BEC1CA5329A004343BD /* Info.plist */,
 			);
 			path = BEncodeTests;
-			sourceTree = "<group>";
-		};
-		B54D0BF51CA532DF004343BD /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				B54D0BFE1CA53307004343BD /* Bytes.swift */,
-				B54D0BFF1CA53307004343BD /* BytesTests.swift */,
-				B54D0C001CA53307004343BD /* Ascii.swift */,
-				B54D0C011CA53307004343BD /* AsciiTests.swift */,
-				B54D0C021CA53307004343BD /* ByteStream.swift */,
-				B54D0C031CA53307004343BD /* NSDataByteStream.swift */,
-				B54D0C041CA53307004343BD /* NSDataByteStreamTests.swift */,
-			);
-			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +220,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74AA86211D1AF34600980175 /* Utilities in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,11 +239,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B54D0BFA1CA532FD004343BD /* BEncoder.swift in Sources */,
-				B54D0C071CA53307004343BD /* Ascii.swift in Sources */,
-				B54D0C051CA53307004343BD /* Bytes.swift in Sources */,
-				B54D0C091CA53307004343BD /* ByteStream.swift in Sources */,
+				74AA862B1D1AF3AC00980175 /* Ascii.swift in Sources */,
+				74AA862F1D1AF3AC00980175 /* ByteStream.swift in Sources */,
+				74AA862D1D1AF3AC00980175 /* Bytes.swift in Sources */,
+				74AA86301D1AF3AC00980175 /* NSDataByteStream.swift in Sources */,
 				B54D0BFC1CA532FD004343BD /* BEncoder+decode.swift in Sources */,
-				B54D0C0A1CA53307004343BD /* NSDataByteStream.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,12 +251,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B54D0C101CA53314004343BD /* NSDataByteStreamTests.swift in Sources */,
+				74AA86351D1AF3C900980175 /* NSDataByteStreamTests.swift in Sources */,
 				B54D0C121CA53347004343BD /* TestHelpers.swift in Sources */,
-				B54D0C0F1CA53314004343BD /* AsciiTests.swift in Sources */,
-				B54D0C0E1CA53314004343BD /* BytesTests.swift in Sources */,
 				B54D0C0D1CA53314004343BD /* BEncoderDecodeTests.swift in Sources */,
+				74AA86341D1AF3C600980175 /* BytesTests.swift in Sources */,
 				B54D0C0C1CA53314004343BD /* BEncoderTests.swift in Sources */,
+				74AA86331D1AF3C400980175 /* AsciiTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,7 +373,7 @@
 				INFOPLIST_FILE = BEncode/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.bendavisapps.BEncode;
+				PRODUCT_BUNDLE_IDENTIFIER = com.domain.bencode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -388,7 +391,7 @@
 				INFOPLIST_FILE = BEncode/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.bendavisapps.BEncode;
+				PRODUCT_BUNDLE_IDENTIFIER = com.domain.bencode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
