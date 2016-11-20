@@ -20,36 +20,36 @@ class BEncoderDecodeTests: XCTestCase {
         encodeIntegerAndTestDecode(99999)
     }
     
-    func encodeIntegerAndTestDecode(integer: Int) {
+    func encodeIntegerAndTestDecode(_ integer: Int) {
         let encodedInteger = BEncoder.encodeInteger(integer)
         decodeIntegerAndCompare(encodedInteger, expectedResult: integer)
     }
     
-    func decodeIntegerAndCompare(bEncodedInteger: NSData, expectedResult: Int) {
+    func decodeIntegerAndCompare(_ bEncodedInteger: Data, expectedResult: Int) {
         let result = try! BEncoder.decodeInteger(bEncodedInteger)
         XCTAssertEqual(result, expectedResult)
     }
     
     func testExceptionThrownForIntIfFirstCharacterNotLowerCaseI() {
-        assertExceptionThrown(BEncoderException.InvalidBEncode) {
+        assertExceptionThrown(BEncoderException.invalidBEncode) {
             try BEncoder.decodeInteger("x5e".asciiValue())
         }
     }
     
     func testExceptionThrownForIntIfLastCharacterNotLowerCaseE() {
-        assertExceptionThrown(BEncoderException.InvalidBEncode) {
+        assertExceptionThrown(BEncoderException.invalidBEncode) {
             try BEncoder.decodeInteger("i5x".asciiValue())
         }
     }
     
     func testExceptionThrownForIntIfMissingLastCharacter() {
-        assertExceptionThrown(BEncoderException.InvalidBEncode) {
+        assertExceptionThrown(BEncoderException.invalidBEncode) {
             try BEncoder.decodeInteger("i5".asciiValue())
         }
     }
     
     func testExceptionThrownForIntIfNotValidNumber() {
-        assertExceptionThrown(BEncoderException.InvalidBEncode) {
+        assertExceptionThrown(BEncoderException.invalidBEncode) {
             try BEncoder.decodeInteger("ixe".asciiValue())
             try BEncoder.decodeInteger("i1x1e".asciiValue())
         }
@@ -58,17 +58,17 @@ class BEncoderDecodeTests: XCTestCase {
     // MARK: - Byte Strings
 
     func testDecode0ByteString() {
-        let input = try! NSMutableData(data: Character("0").asciiValue())
+        let input = try! (NSData(data: Character("0").asciiValue()) as Data)
             .andData(BEncoder.StringSizeDelimiterToken)
         
         let result = try! BEncoder.decodeByteString(input)
         
-        XCTAssertEqual(result, NSData())
+        XCTAssertEqual(result, Data())
     }
     
     func testDecode5ByteString() {
-        let byteString = NSData(byteArray: [ 1, 2, 3, 255, 0])
-        let input = try! NSMutableData(data: Character("5").asciiValue())
+        let byteString = Data(bytes: [ 1, 2, 3, 255, 0])
+        let input = try! (NSData(data: Character("5").asciiValue()) as Data)
             .andData(BEncoder.StringSizeDelimiterToken)
             .andData(byteString)
         
@@ -78,8 +78,8 @@ class BEncoderDecodeTests: XCTestCase {
     }
 
     func testDecode10ByteString() {
-        let byteString = NSData(byteArray: [1,2,3,4,5,6,7,8,9,0])
-        let input = try! NSMutableData(data: "10".asciiValue())
+        let byteString = Data(bytes: [1,2,3,4,5,6,7,8,9,0])
+        let input = try! (NSData(data: "10".asciiValue()) as Data)
             .andData(BEncoder.StringSizeDelimiterToken)
             .andData(byteString)
         
@@ -89,32 +89,32 @@ class BEncoderDecodeTests: XCTestCase {
     }
     
     func testExceptionThrownForStringIfNoDelimiter() {
-        let input = try! NSMutableData(data: Character("1").asciiValue())
-            .andData(NSData(byteArray: [ 5 ]))
+        let input = try! (NSData(data: Character("1").asciiValue()) as Data)
+            .andData(Data(bytes: [ 5 ]))
         
-        assertExceptionThrown(BEncoderException.InvalidBEncode) {
+        assertExceptionThrown(BEncoderException.invalidBEncode) {
             let _ = try BEncoder.decodeByteString(input)
         }
         
     }
     
     func testExceptionThrownForStringIfStringLengthIsNaN() {
-        let input = try! NSMutableData(data: Character("x").asciiValue())
+        let input = try! (NSData(data: Character("x").asciiValue()) as Data)
             .andData(BEncoder.StringSizeDelimiterToken)
-            .andData(NSData(byteArray: [ 5 ]))
+            .andData(Data(bytes: [ 5 ]))
         
-        assertExceptionThrown(BEncoderException.InvalidBEncode) {
+        assertExceptionThrown(BEncoderException.invalidBEncode) {
             let _ = try BEncoder.decodeByteString(input)
         }
         
     }
     
     func testExceptionThrownForStringIfStringLengthShort() {
-        let shortInput = try! NSMutableData(data: Character("5").asciiValue())
+        let shortInput = try! (NSData(data: Character("5").asciiValue()) as Data)
             .andData(BEncoder.StringSizeDelimiterToken)
-            .andData(NSData(byteArray: [ 1, 2, 3, 255]))
+            .andData(Data(bytes: [ 1, 2, 3, 255]))
         
-        assertExceptionThrown(BEncoderException.InvalidBEncode) {
+        assertExceptionThrown(BEncoderException.invalidBEncode) {
             let _ = try BEncoder.decodeByteString(shortInput)        
         }
 
@@ -167,7 +167,7 @@ class BEncoderDecodeTests: XCTestCase {
     
     func testDecodeListWithMixedTypes() {
         let integer = 5
-        let byteString = NSData(byteArray: [0,1,2,255])
+        let byteString = Data(bytes: [0,1,2,255])
         let string = "string"
         
         let input = try! BEncoder.encode([
@@ -177,20 +177,20 @@ class BEncoderDecodeTests: XCTestCase {
             ])
         
         let result = try! BEncoder.decodeList(input)
-        let decodedString = String(asciiData: result[2] as? NSData)
+        let decodedString = String(asciiData: result[2] as? Data)
 
         XCTAssertEqual(result.count, 3)
         XCTAssertEqual(result[0] as? Int, integer)
-        XCTAssertEqual(result[1] as? NSData, byteString)
+        XCTAssertEqual(result[1] as? Data, byteString)
         XCTAssertEqual(decodedString, string)
     }
 
     func testDecodeListWithNestedLists() {
         let integer = 5
-        let byteString = NSData(byteArray: [0,1,2,255])
+        let byteString = Data(bytes: [0,1,2,255])
         let string = "string"
         
-        let nestedList = [
+        let nestedList: [Any] = [
             integer,
             byteString,
             string
@@ -203,19 +203,19 @@ class BEncoderDecodeTests: XCTestCase {
         
         let result = try! BEncoder.decodeList(input)
         let nestedResult = result[0] as! [AnyObject];
-        let decodedString = String(asciiData: nestedResult[2] as? NSData)
+        let decodedString = String(asciiData: nestedResult[2] as? Data)
 
         XCTAssertEqual(result.count, 2)
         XCTAssertEqual(result[1] as? Int, integer)
         XCTAssertEqual(nestedResult.count, 3)
         XCTAssertEqual(nestedResult[0] as? Int, integer)
-        XCTAssertEqual(nestedResult[1] as? NSData, byteString)
+        XCTAssertEqual(nestedResult[1] as? Data, byteString)
         XCTAssertEqual(decodedString, string)
     }
     
     func testExceptionThrownForListIfFirstCharacterNotLowerCaseL() {
         
-        let encodedList = NSData(byteArray: [
+        let encodedList = Data(bytes: [
             
             120,                                // x
             105, 49, 50, 51, 101,               // i123e
@@ -223,7 +223,7 @@ class BEncoderDecodeTests: XCTestCase {
 
             ])
         
-        assertExceptionThrown(BEncoderException.InvalidBEncode) {
+        assertExceptionThrown(BEncoderException.invalidBEncode) {
             let test = try BEncoder.decodeList(encodedList)
             print(test)
         }
@@ -232,13 +232,13 @@ class BEncoderDecodeTests: XCTestCase {
     
     func testExceptionThrownForListIfLastCharacterNotLowerCaseE() {
         
-        let encodedList = NSData(byteArray: [
+        let encodedList = Data(bytes: [
             108,                                // l
             105, 49, 50, 51, 101,               // i123e
 
             ])
         
-        assertExceptionThrown(BEncoderException.InvalidBEncode) {
+        assertExceptionThrown(BEncoderException.invalidBEncode) {
             let _ = try BEncoder.decodeList(encodedList)
         }
         
@@ -247,7 +247,7 @@ class BEncoderDecodeTests: XCTestCase {
     // MARK: - Dictionaries
     
     func testDecodeEmptyDictionary() {
-        let emptyDictionary: [NSData:NSData] = [:]
+        let emptyDictionary: [Data:Data] = [:]
         let input = try! BEncoder.encode(emptyDictionary)
         let result = try! BEncoder.decodeDictionary(input)
         XCTAssertEqual(result.count, 0)
@@ -285,7 +285,7 @@ class BEncoderDecodeTests: XCTestCase {
         let integer = 5
         
         let key2 = try! "key2".asciiValue()
-        let byteString = NSData(byteArray: [0,1,2,255])
+        let byteString = Data(bytes: [0,1,2,255])
         
         let input = try! BEncoder.encode([
             key1 : integer,
@@ -295,7 +295,7 @@ class BEncoderDecodeTests: XCTestCase {
         let result = try! BEncoder.decodeDictionary(input)
         XCTAssertEqual(result.count, 2)
         XCTAssertEqual(result[key1] as? Int, integer)
-        XCTAssertEqual(result[key2] as? NSData, byteString)
+        XCTAssertEqual(result[key2] as? Data, byteString)
     }
     
     func testDecodeDictionaryWithDictionary() {
@@ -303,10 +303,10 @@ class BEncoderDecodeTests: XCTestCase {
         let integer = 5
         
         let key2 = try! "key2".asciiValue()
-        let byteString = NSData(byteArray: [0,1,2,255])
+        let byteString = Data(bytes: [0,1,2,255])
         
         let key3 = try! "key3".asciiValue()
-        let dictionary = [
+        let dictionary: [Data:Any] = [
             key1 : integer,
             key2 : byteString
             ]
@@ -318,13 +318,13 @@ class BEncoderDecodeTests: XCTestCase {
             ])
         
         let result = try! BEncoder.decodeDictionary(input)
-        let decodedDictionary = result[key3] as! [NSData:AnyObject]
+        let decodedDictionary = result[key3] as! [Data:AnyObject]
         XCTAssertEqual(result.count, 3)
         XCTAssertEqual(result[key1] as? Int, integer)
-        XCTAssertEqual(result[key2] as? NSData, byteString)
+        XCTAssertEqual(result[key2] as? Data, byteString)
         XCTAssertEqual(decodedDictionary.count, 2)
         XCTAssertEqual(result[key1] as? Int, integer)
-        XCTAssertEqual(result[key2] as? NSData, byteString)
+        XCTAssertEqual(result[key2] as? Data, byteString)
     }
     
     // MARK: List and Dictionary combinations
@@ -334,10 +334,10 @@ class BEncoderDecodeTests: XCTestCase {
         let integer = 5
         
         let key2 = try! "key2".asciiValue()
-        let byteString = NSData(byteArray: [0,1,2,255])
+        let byteString = Data(bytes: [0,1,2,255])
         
         let key3 = try! "key3".asciiValue()
-        let list = [ byteString, integer ]
+        let list: [Any] = [ byteString, integer ]
         
         let input = try! BEncoder.encode([
             key1 : integer,
@@ -349,9 +349,9 @@ class BEncoderDecodeTests: XCTestCase {
         let decodedList = result[key3] as! [AnyObject]
         XCTAssertEqual(result.count, 3)
         XCTAssertEqual(result[key1] as? Int, integer)
-        XCTAssertEqual(result[key2] as? NSData, byteString)
+        XCTAssertEqual(result[key2] as? Data, byteString)
         XCTAssertEqual(decodedList.count, 2)
-        XCTAssertEqual(decodedList[0] as? NSData, byteString)
+        XCTAssertEqual(decodedList[0] as? Data, byteString)
         XCTAssertEqual(decodedList[1] as? Int, integer)
     }
     
@@ -360,14 +360,14 @@ class BEncoderDecodeTests: XCTestCase {
         let integer = 5
         
         let key2 = try! "key2".asciiValue()
-        let byteString = NSData(byteArray: [0,1,2,255])
+        let byteString = Data(bytes: [0,1,2,255])
         
-        let dictionary = [
+        let dictionary: [Data:Any] = [
             key1 : integer,
             key2 : byteString
             ]
         
-        let list = [
+        let list: [Any] = [
             integer,
             dictionary,
             byteString
@@ -375,14 +375,14 @@ class BEncoderDecodeTests: XCTestCase {
         
         let input = try! BEncoder.encode(list)
         let result = try! BEncoder.decodeList(input)
-        let decodedDictionary = result[1] as! [NSData:AnyObject]
+        let decodedDictionary = result[1] as! [Data:AnyObject]
         
         XCTAssertEqual(result.count, 3)
         XCTAssertEqual(result[0] as? Int, integer)
         XCTAssertEqual(decodedDictionary.count, 2)
-        XCTAssertEqual(result[2] as? NSData, byteString)
+        XCTAssertEqual(result[2] as? Data, byteString)
         XCTAssertEqual(decodedDictionary[key1] as? Int, integer)
-        XCTAssertEqual(decodedDictionary[key2] as? NSData, byteString)
+        XCTAssertEqual(decodedDictionary[key2] as? Data, byteString)
     }
     
     func testDecodeDictionaryKeysOnly() {
@@ -391,15 +391,15 @@ class BEncoderDecodeTests: XCTestCase {
         let encodedInteger = try! BEncoder.encode(integer)
         
         let key2 = "key2"
-        let byteString = NSData(byteArray: [0,5,255])
+        let byteString = Data(bytes: [0,5,255])
         let encodedByteString = try! BEncoder.encode(byteString)
         
         let key3 = "key3"
-        let list = [integer, byteString]
+        let list: [Any] = [integer, byteString]
         let encodedList = try! BEncoder.encode(list)
         
         let key4 = "key4"
-        let dictionary = [key1:integer, key2:byteString]
+        let dictionary: [String : Any] = [key1:integer, key2:byteString]
         let encodedDictionary = try! BEncoder.encode(dictionary)
         
         let input = try! BEncoder.encode([
@@ -421,13 +421,13 @@ class BEncoderDecodeTests: XCTestCase {
         let integer = 5
         
         let key2 = "key2"
-        let byteString = NSData(byteArray: [0,5,255])
+        let byteString = Data(bytes: [0,5,255])
         
         let key3 = "key3"
-        let dictionary = [key1:integer, key2:byteString]
+        let dictionary: [String : Any] = [key1:integer, key2:byteString]
         
         let key4 = "key4"
-        let list = [integer, byteString, dictionary]
+        let list: [Any] = [integer, byteString, dictionary]
         
         let input = try! BEncoder.encode([
             key1 : integer,
@@ -436,11 +436,11 @@ class BEncoderDecodeTests: XCTestCase {
             key4 : list,
             ])
         
-        let result = try! BEncoder.decode(input, decodeDictionariesWithStringKeys: true)
-        let decodedDictionary = result[key3]
-        let decodedList = result[key4]
-        XCTAssertEqual(result[key1], integer)
-        XCTAssertEqual(result[key2], byteString)
+        let result = try! BEncoder.decode(input, decodeDictionariesWithStringKeys: true) as! [ String : Any ]
+        let decodedDictionary = result[key3] as! [String: Any]
+        let decodedList = result[key4] as! [Any]
+        XCTAssertEqual(result[key1] as! Int, integer)
+        XCTAssertEqual(result[key2] as! Data, byteString)
         XCTAssertEqual(decodedList, list)
         XCTAssertEqual(decodedDictionary, dictionary)
     }

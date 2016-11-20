@@ -10,45 +10,48 @@ import Foundation
 
 class NSDataByteStream: ByteStream {
     
-    var currentIndex = 0
-    private let data: NSData
-    private let length: Int
-    private var pointer: UnsafePointer<Byte>
+    var currentIndex: Data.Index
+    fileprivate let data: Data
+    fileprivate let length: Int
+    fileprivate var pointer: UnsafePointer<Byte>
     
-    init(data: NSData) {
+    init(data: Data) {
         self.data = data
-        self.pointer = UnsafePointer<Byte>(data.bytes)
-        self.length = data.length
+        self.pointer = (data as NSData).bytes.bindMemory(to: Byte.self, capacity: data.count)
+        self.length = data.count
+        self.currentIndex = data.startIndex
     }
     
     func nextByte() -> Byte? {
         if self.currentIndex == self.length {
             return nil
         }
-        let result = self.pointer.memory
+        let result = self.pointer.pointee
         self.advancePointer(1)
         return result
     }
     
-    private func advancePointer(numberOfBytes: Int) {
-        self.pointer = self.pointer.advancedBy(numberOfBytes)
+    fileprivate func advancePointer(_ numberOfBytes: Int) {
+        self.pointer = self.pointer.advanced(by: numberOfBytes)
         self.currentIndex += numberOfBytes
     }
     
-    func nextBytes(numberOfBytes: Int) -> NSData? {
+    func nextBytes(_ numberOfBytes: Int) -> Data? {
         if !self.indexIsValid(self.currentIndex + numberOfBytes) {
             return nil
         }
-        let result = self.data.subdataWithRange(NSMakeRange(self.currentIndex, numberOfBytes))
+        let range = Range<Data.Index>(uncheckedBounds: (lower: self.currentIndex,
+                                                        upper: self.currentIndex.advanced(by: numberOfBytes)))
+        let result = self.data.subdata(in: range)
         self.advancePointer(numberOfBytes)
         return result
     }
     
-    func indexIsValid(index: Int) -> Bool {
+    func indexIsValid(_ index: Int) -> Bool {
         return index >= 0 && index <= self.length
     }
     
-    func advanceBy(numberOfBytes: Int) {
+    func advanceBy(_ numberOfBytes: Int) {
         
         let finalIndex = self.currentIndex + numberOfBytes
         

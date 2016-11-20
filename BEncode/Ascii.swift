@@ -8,22 +8,22 @@
 
 import Foundation
 
-public enum AsciiError: ErrorType {
-    case Invalid
+public enum AsciiError: Error {
+    case invalid
 }
 
 public extension UInt8 {
     
     func asciiValue() throws -> UInt8 {
         if self >= 10 {
-            throw AsciiError.Invalid
+            throw AsciiError.invalid
         }
         return self + 48 // 48 is ascii for 0
     }
     
     func fromAsciiValue() throws -> UInt8 {
         if self > 57 || self < 48 {
-            throw AsciiError.Invalid
+            throw AsciiError.invalid
         }
         return self - 48 // 48 is ascii for 0
     }
@@ -32,7 +32,7 @@ public extension UInt8 {
 
 public extension Int {
     
-    func digitsInAscii() -> NSData {
+    func digitsInAscii() -> Data {
         let (head, tailByte) = self.splitAndAsciiEncodeLastDigit()
         if head > 0 {
             return head.digitsInAscii().dataByAppendingData(tailByte)
@@ -40,21 +40,21 @@ public extension Int {
         return tailByte
     }
     
-    private func splitAndAsciiEncodeLastDigit() -> (head: Int, tail: NSData) {
+    fileprivate func splitAndAsciiEncodeLastDigit() -> (head: Int, tail: Data) {
         let (head, tail) = splitDigitsOnLast()
         return (head, try! tail.digitAsAsciiByte())
     }
     
-    private func digitAsAsciiByte() throws -> NSData {
-        return try UInt8(self).asciiValue().toData()
+    fileprivate func digitAsAsciiByte() throws -> Data {
+        return try UInt8(self).asciiValue().toData() as Data
     }
     
-    private func splitDigitsOnLast() -> (head: Int, tail: Int) {
+    fileprivate func splitDigitsOnLast() -> (head: Int, tail: Int) {
         return (self / 10, self % 10)
     }
     
-    static func fromAsciiData(data: NSData) throws -> Int {
-        if data.length == 0 {
+    static func fromAsciiData(_ data: Data) throws -> Int {
+        if data.count == 0 {
             return 0
         }
         let (headOfData, decodedLastByte) = try self.splitDataAndDecodeLastByte(data)
@@ -62,29 +62,25 @@ public extension Int {
         return decodedLastByte + ( 10 * resultOfDecodingTheHead )
     }
     
-    private static func splitDataAndDecodeLastByte(data: NSData) throws -> (NSData, Int) {
+    fileprivate static func splitDataAndDecodeLastByte(_ data: Data) throws -> (Data, Int) {
         let (headOfData, lastByte) = self.splitDataBeforeLastByte(data)
         let decodedLastByte = try lastByte.fromAsciiValue()
         return (headOfData, Int(decodedLastByte))
     }
     
-    private static func splitDataBeforeLastByte(data: NSData) -> (NSData, UInt8) {
-        let lastByte = self.getLastByte(data)
-        let headOfData = data.subdataWithRange(NSMakeRange(0, data.length-1))
+    fileprivate static func splitDataBeforeLastByte(_ data: Data) -> (Data, UInt8) {
+        let lastByte = data.last!
+        let range = Range(uncheckedBounds: (lower: data.startIndex,
+                                            upper: data.endIndex.advanced(by: -1)))
+        let headOfData = data.subdata(in: range)
         return (headOfData, lastByte)
-    }
-    
-    private static func getLastByte(data: NSData) -> Byte {
-        let bytePointer = UnsafePointer<Byte>(data.bytes)
-        let lastBytePointer = bytePointer.advancedBy(data.length-1)
-        return lastBytePointer.memory
     }
     
 }
 
 public extension Int {
     
-    func appendAsciiDigit(asciiDigit: Byte) throws -> Int {
+    func appendAsciiDigit(_ asciiDigit: Byte) throws -> Int {
         let digit = Int(try asciiDigit.fromAsciiValue())
         return self*10 + digit
     }
@@ -93,12 +89,12 @@ public extension Int {
 
 public extension Character {
     
-    func asciiValue() throws -> NSData {
+    func asciiValue() throws -> Data {
         let unicodeScalarCodePoint = self.unicodeScalarCodePoint()
-        if !unicodeScalarCodePoint.isASCII() {
-            throw AsciiError.Invalid
+        if !unicodeScalarCodePoint.isASCII {
+            throw AsciiError.invalid
         }
-        return UInt8(ascii: unicodeScalarCodePoint).toData()
+        return UInt8(ascii: unicodeScalarCodePoint).toData() as Data
     }
     
     func unicodeScalarCodePoint() -> UnicodeScalar {
@@ -111,14 +107,14 @@ public extension Character {
 
 public extension String {
     
-    init?(asciiData: NSData?) {
+    init?(asciiData: Data?) {
         if asciiData == nil { return nil }
-        self.init(data: asciiData!, encoding: NSASCIIStringEncoding)
+        self.init(data: asciiData!, encoding: String.Encoding.ascii)
     }
     
-    func asciiValue() throws -> NSData {
-        guard let result = (self as NSString).dataUsingEncoding(NSASCIIStringEncoding) else {
-            throw AsciiError.Invalid
+    func asciiValue() throws -> Data {
+        guard let result = (self as NSString).data(using: String.Encoding.ascii.rawValue) else {
+            throw AsciiError.invalid
         }
         return result
     }

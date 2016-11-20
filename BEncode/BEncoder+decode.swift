@@ -21,11 +21,11 @@ public extension BEncoder {
      - returns: An Int, String, NSData, Array or Dictionary depending on the type of the
      BEncoded data
      */
-    public class func decode(byteStream: ByteStream) throws -> AnyObject {
+    public class func decode(_ byteStream: ByteStream) throws -> Any {
         return try self.decode(byteStream, decodeDictionariesWithStringKeys: false)
     }
     
-    public class func decode(byteStream: ByteStream, decodeDictionariesWithStringKeys: Bool) throws -> AnyObject {
+    public class func decode(_ byteStream: ByteStream, decodeDictionariesWithStringKeys: Bool) throws -> Any {
         let firstByte = byteStream.nextByte()
         byteStream.advanceBy(-1)
         
@@ -47,26 +47,26 @@ public extension BEncoder {
     /**
      Convenience method to decode NSData.
      */
-    public class func decode(data: NSData) throws -> AnyObject {
-        return try self.decode(NSDataByteStream(data: data))
+    public class func decode(_ data: Data) throws -> Any {
+        return try self.decode(NSDataByteStream(data: data as Data))
     }
     
-    public class func decode(data: NSData, decodeDictionariesWithStringKeys stringKeys: Bool) throws -> AnyObject {
-        return try self.decode(NSDataByteStream(data: data), decodeDictionariesWithStringKeys: stringKeys)
+    public class func decode(_ data: Data, decodeDictionariesWithStringKeys stringKeys: Bool) throws -> Any {
+        return try self.decode(NSDataByteStream(data: data as Data), decodeDictionariesWithStringKeys: stringKeys)
     }
 
-    public class func decodeInteger(data: NSData) throws -> Int {
-        return try self.decodeInteger(NSDataByteStream(data: data))
+    public class func decodeInteger(_ data: Data) throws -> Int {
+        return try self.decodeInteger(NSDataByteStream(data: data as Data))
     }
     
-    public class func decodeInteger(byteStream: ByteStream) throws -> Int {
+    public class func decodeInteger(_ byteStream: ByteStream) throws -> Int {
         
         try self.testFirstByte(byteStream, expectedFirstByte: ascii_i)
 
         return try self.buildAsciiIntegerFromStream(byteStream, terminator: ascii_e)
     }
     
-    private class func buildAsciiIntegerFromStream(byteStream: ByteStream, terminator: Byte) throws -> Int {
+    fileprivate class func buildAsciiIntegerFromStream(_ byteStream: ByteStream, terminator: Byte) throws -> Int {
         var currentDigit = byteStream.nextByte()
         var result: Int = 0
         while currentDigit != terminator {
@@ -76,72 +76,72 @@ public extension BEncoder {
         return result
     }
     
-    private class func testFirstByte(byteStream: ByteStream, expectedFirstByte: Byte) throws {
+    fileprivate class func testFirstByte(_ byteStream: ByteStream, expectedFirstByte: Byte) throws {
         let firstByte = byteStream.nextByte()
         if firstByte != expectedFirstByte {
-            throw BEncoderException.InvalidBEncode
+            throw BEncoderException.invalidBEncode
         }
     }
     
-    private class func appendNextDigitIfNotNil(integer: Int, currentDigit: Byte?) throws -> Int {
+    fileprivate class func appendNextDigitIfNotNil(_ integer: Int, currentDigit: Byte?) throws -> Int {
         if let digit = currentDigit {
             return try self.appendAsciiDigitToInteger(integer, digit: digit)
         } else {
-            throw BEncoderException.InvalidBEncode
+            throw BEncoderException.invalidBEncode
         }
     }
     
-    private class func appendAsciiDigitToInteger(integer: Int, digit: UInt8) throws -> Int {
+    fileprivate class func appendAsciiDigitToInteger(_ integer: Int, digit: UInt8) throws -> Int {
         do {
             return try integer.appendAsciiDigit(digit)
-        } catch let e as AsciiError where e == AsciiError.Invalid {
-            throw BEncoderException.InvalidBEncode
+        } catch let e as AsciiError where e == AsciiError.invalid {
+            throw BEncoderException.invalidBEncode
         }
     }
     
-    public class func decodeByteString(data: NSData) throws -> NSData {
-        return try self.decodeByteString(NSDataByteStream(data: data))
+    public class func decodeByteString(_ data: Data) throws -> Data {
+        return try self.decodeByteString(NSDataByteStream(data: data as Data))
     }
     
-    public class func decodeByteString(byteStream: ByteStream) throws -> NSData {
+    public class func decodeByteString(_ byteStream: ByteStream) throws -> Data {
         let numberOfBytes = try self.buildAsciiIntegerFromStream(byteStream, terminator: ascii_colon)
         if !byteStream.indexIsValid(byteStream.currentIndex + numberOfBytes) {
-            throw BEncoderException.InvalidBEncode
+            throw BEncoderException.invalidBEncode
         }
         return byteStream.nextBytes(numberOfBytes)!
     }
 
-    public class func decodeString(data: NSData) throws -> String {
-        return try self.decodeString(NSDataByteStream(data: data));
+    public class func decodeString(_ data: Data) throws -> String {
+        return try self.decodeString(NSDataByteStream(data: data as Data));
     }
 
-    public class func decodeString(byteStream: ByteStream) throws -> String {
+    public class func decodeString(_ byteStream: ByteStream) throws -> String {
         let data = try self.decodeByteString(byteStream)
-        guard let result = String(asciiData: data) else {
-            throw BEncoderException.InvalidBEncode
+        guard let result = String(asciiData: data as Data?) else {
+            throw BEncoderException.invalidBEncode
         }
         return result
     }
     
-    public class func decodeList(data: NSData) throws -> [AnyObject] {
-        return try self.decodeList(NSDataByteStream(data: data))
+    public class func decodeList(_ data: Data) throws -> [Any] {
+        return try self.decodeList(NSDataByteStream(data: data as Data))
     }
     
-    public class func decodeList(byteStream: ByteStream) throws -> [AnyObject] {
+    public class func decodeList(_ byteStream: ByteStream) throws -> [Any] {
         return try self.decodeList(byteStream, decodeDictionariesWithStringKeys: false)
     }
     
-    public class func decodeList(data: NSData, decodeDictionariesWithStringKeys stringKeys: Bool) throws -> [AnyObject] {
-        return try self.decodeList(NSDataByteStream(data: data), decodeDictionariesWithStringKeys:stringKeys)
+    public class func decodeList(_ data: Data, decodeDictionariesWithStringKeys stringKeys: Bool) throws -> [Any] {
+        return try self.decodeList(NSDataByteStream(data: data as Data), decodeDictionariesWithStringKeys:stringKeys)
     }
     
-    public class func decodeList(byteStream: ByteStream,
-                                 decodeDictionariesWithStringKeys stringKeys: Bool) throws -> [AnyObject] {
-        var result: [AnyObject] = []
+    public class func decodeList(_ byteStream: ByteStream,
+                                 decodeDictionariesWithStringKeys stringKeys: Bool) throws -> [Any] {
+        var result: [Any] = []
         let firstByte = byteStream.nextByte()
         
         if firstByte != ascii_l {
-            throw BEncoderException.InvalidBEncode
+            throw BEncoderException.invalidBEncode
         }
         
         var currentByte = byteStream.nextByte()
@@ -154,13 +154,13 @@ public extension BEncoder {
         return result
     }
     
-    public class func decodeDictionary(data: NSData) throws -> [NSData: AnyObject] {
-        return try self.decodeDictionary(NSDataByteStream(data: data))
+    public class func decodeDictionary(_ data: Data) throws -> [Data: Any] {
+        return try self.decodeDictionary(NSDataByteStream(data: data as Data))
     }
     
-    public class func decodeDictionary(byteStream: ByteStream) throws -> [NSData: AnyObject] {
+    public class func decodeDictionary(_ byteStream: ByteStream) throws -> [Data: Any] {
         
-        var result: [NSData:AnyObject] = [:]
+        var result: [Data:Any] = [:]
         
         var currentByte = byteStream.nextByte()
         currentByte = byteStream.nextByte()
@@ -180,13 +180,13 @@ public extension BEncoder {
         return result
     }
     
-    public class func decodeStringKeyedDictionary(data: NSData) throws -> [String: AnyObject] {
-        return try self.decodeStringKeyedDictionary(NSDataByteStream(data: data))
+    public class func decodeStringKeyedDictionary(_ data: Data) throws -> [String: Any] {
+        return try self.decodeStringKeyedDictionary(NSDataByteStream(data: data as Data))
     }
     
-    public class func decodeStringKeyedDictionary(byteStream: ByteStream) throws -> [String: AnyObject] {
+    public class func decodeStringKeyedDictionary(_ byteStream: ByteStream) throws -> [String: Any] {
         
-        var result: [String : AnyObject] = [:]
+        var result: [String : Any] = [:]
         
         var currentByte = byteStream.nextByte()
         currentByte = byteStream.nextByte()
@@ -206,13 +206,13 @@ public extension BEncoder {
         return result
     }
     
-    public class func decodeDictionaryKeysOnly(data: NSData) throws -> [String: NSData] {
-        return try self.decodeDictionaryKeysOnly(NSDataByteStream(data: data))
+    public class func decodeDictionaryKeysOnly(_ data: Data) throws -> [String: Data] {
+        return try self.decodeDictionaryKeysOnly(NSDataByteStream(data: data as Data))
     }
     
-    public class func decodeDictionaryKeysOnly(byteStream: ByteStream) throws -> [String: NSData] {
+    public class func decodeDictionaryKeysOnly(_ byteStream: ByteStream) throws -> [String: Data] {
         
-        var result = [String:NSData]()
+        var result = [String:Data]()
         
         var currentByte = byteStream.nextByte()
         currentByte = byteStream.nextByte()

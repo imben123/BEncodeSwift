@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B53A41881D6ADBBF001EE7EE /* BEncodeTestMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53A41861D6ADA86001EE7EE /* BEncodeTestMacros.swift */; };
 		B54D0BDF1CA53299004343BD /* BEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = B54D0BDE1CA53299004343BD /* BEncode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B54D0BE61CA5329A004343BD /* BEncode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54D0BDB1CA53299004343BD /* BEncode.framework */; };
 		B54D0BFA1CA532FD004343BD /* BEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54D0BF61CA532FD004343BD /* BEncoder.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B53A41861D6ADA86001EE7EE /* BEncodeTestMacros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BEncodeTestMacros.swift; sourceTree = "<group>"; };
 		B54D0BDB1CA53299004343BD /* BEncode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BEncode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54D0BDE1CA53299004343BD /* BEncode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BEncode.h; sourceTree = "<group>"; };
 		B54D0BE01CA53299004343BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				B54D0BF71CA532FD004343BD /* BEncoderTests.swift */,
 				B54D0BF81CA532FD004343BD /* BEncoder+decode.swift */,
 				B54D0BF91CA532FD004343BD /* BEncoderDecodeTests.swift */,
+				B53A41861D6ADA86001EE7EE /* BEncodeTestMacros.swift */,
 				B54D0BF51CA532DF004343BD /* Utilities */,
 				B54D0BE01CA53299004343BD /* Info.plist */,
 			);
@@ -184,14 +187,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = bendavisapps;
 				TargetAttributes = {
 					B54D0BDA1CA53299004343BD = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 					};
 					B54D0BE41CA5329A004343BD = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -251,6 +256,7 @@
 				B54D0C101CA53314004343BD /* NSDataByteStreamTests.swift in Sources */,
 				B54D0C121CA53347004343BD /* TestHelpers.swift in Sources */,
 				B54D0C0F1CA53314004343BD /* AsciiTests.swift in Sources */,
+				B53A41881D6ADBBF001EE7EE /* BEncodeTestMacros.swift in Sources */,
 				B54D0C0E1CA53314004343BD /* BytesTests.swift in Sources */,
 				B54D0C0D1CA53314004343BD /* BEncoderDecodeTests.swift in Sources */,
 				B54D0C0C1CA53314004343BD /* BEncoderTests.swift in Sources */,
@@ -282,8 +288,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -331,8 +339,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -352,6 +362,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -363,6 +374,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -374,6 +386,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Debug;
 		};
@@ -381,6 +394,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -391,6 +405,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.bendavisapps.BEncode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Release;
 		};
@@ -401,6 +416,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.bendavisapps.BEncodeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -411,6 +428,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.bendavisapps.BEncodeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
