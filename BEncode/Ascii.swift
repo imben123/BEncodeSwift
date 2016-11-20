@@ -75,7 +75,6 @@ public extension Int {
         let headOfData = data.subdata(in: range)
         return (headOfData, lastByte)
     }
-    
 }
 
 public extension Int {
