@@ -41,11 +41,4 @@ class BytesTests: XCTestCase {
         let result = data.toUInt8()
         XCTAssertEqual(result, integer)
     }
-    
-    func testGetByteAtIndex() {
-        let data = Data(bytes: [0,1,2,3,4,5])
-        for i: UInt8 in 0...5 {
-            XCTAssertEqual(data[Int(i)], i)
-        }
-    }
 }

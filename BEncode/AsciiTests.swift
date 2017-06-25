@@ -28,16 +28,9 @@ class AssciiTests: XCTestCase {
     
     func testInvalidAsciiDigit() {
         let digit: UInt8 = 10
-        var caughtError = false
         
-        do {
+        assertExceptionThrown(AsciiError.invalid) {
             let _ = try digit.asciiValue()
-        } catch _ as AsciiError {
-            caughtError = true
-        } catch _ {}
-        
-        if !caughtError {
-            XCTFail()
         }
     }
     
@@ -50,7 +43,7 @@ class AssciiTests: XCTestCase {
     
     func doTestForIntegerInAscii(_ integer: Int) {
         let data = integer.digitsInAscii()
-        let string = String(data: data, encoding: String.Encoding.ascii)
+        let string = String(data: data, encoding: .ascii)
         XCTAssertEqual(string, "\(integer)")
     }
     
@@ -70,22 +63,14 @@ class AssciiTests: XCTestCase {
     func testAsciiEncodeString() {
         let string = "abc"
         let data = try! string.asciiValue()
-        let result = String(data: data, encoding: String.Encoding.ascii)
+        let result = String(data: data, encoding: .ascii)
         XCTAssertEqual(string, result)
     }
     
     func testAsciiEncodeStringThrowsOnInvalidAscii() {
         let string = "ab€c"
-        var caughtError = false
-        
-        do {
+        assertExceptionThrown(AsciiError.invalid) {
             let _ = try string.asciiValue()
-        } catch _ as AsciiError {
-            caughtError = true
-        } catch _ {}
-        
-        if !caughtError {
-            XCTFail()
         }
     }
     
@@ -103,18 +88,9 @@ class AssciiTests: XCTestCase {
     }
     
     func testInvalidAsciiCharacter() {
-        
         let character: Character = "€"
-        var caughtError = false
-        
-        do {
+        assertExceptionThrown(AsciiError.invalid) {
             let _ = try character.asciiValue()
-        } catch _ as AsciiError {
-            caughtError = true
-        } catch _ {}
-        
-        if !caughtError {
-            XCTFail()
         }
     }
     
@@ -123,7 +99,6 @@ class AssciiTests: XCTestCase {
         doTestToConvertAsciiToDigit(5)
         doTestToConvertAsciiToDigit(9)
     }
-    
     
     func doTestToConvertAsciiToDigit(_ integer: UInt8) {
         let ascii = try! integer.asciiValue()
@@ -139,16 +114,8 @@ class AssciiTests: XCTestCase {
     }
     
     func doTestDecodeInvalidAsciiDigit(_ invalidDigit: UInt8) {
-        var caughtError = false
-        
-        do {
+        assertExceptionThrown(AsciiError.invalid) {
             let _ = try invalidDigit.fromAsciiValue()
-        } catch _ as AsciiError {
-            caughtError = true
-        } catch _ {}
-        
-        if !caughtError {
-            XCTFail()
         }
     }
     
@@ -165,7 +132,7 @@ class AssciiTests: XCTestCase {
     }
     
     func testEmptyDataGivesZeroIntegerValue() {
-        let result = try! Int.fromAsciiData(Data())
+        let result = try! Int(asciiData: Data())
         XCTAssertEqual(result, 0)
     }
     
@@ -178,22 +145,13 @@ class AssciiTests: XCTestCase {
     
     func dotestDecodeAsciiInteger(_ integer: Int) {
         let data = integer.digitsInAscii()
-        let result = try! Int.fromAsciiData(data)
+        let result = try! Int(asciiData: data)
         XCTAssertEqual(result, integer)
     }
     
     func testErrorThrownIfInvalidAsciiData() {
-        var caughtError = false
-        
-        do {
-            let _ = try Int.fromAsciiData(Data(bytes: [0]))
-        } catch _ as AsciiError {
-            caughtError = true
-        } catch _ {}
-        
-        if !caughtError {
-            XCTFail()
+        assertExceptionThrown(AsciiError.invalid) {
+            let _ = try Int(asciiData: Data(bytes: [0]))
         }
-    }
-    
+    }    
 }

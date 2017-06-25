@@ -14,7 +14,7 @@ public enum AsciiError: Error {
 
 public extension UInt8 {
     
-    func asciiValue() throws -> UInt8 {
+    func asciiValue() throws -> Byte {
         if self >= 10 {
             throw AsciiError.invalid
         }
@@ -27,7 +27,6 @@ public extension UInt8 {
         }
         return self - 48 // 48 is ascii for 0
     }
-    
 }
 
 public extension Int {
@@ -40,39 +39,38 @@ public extension Int {
         return tailByte
     }
     
-    fileprivate func splitAndAsciiEncodeLastDigit() -> (head: Int, tail: Data) {
+    private func splitAndAsciiEncodeLastDigit() -> (head: Int, tail: Data) {
         let (head, tail) = splitDigitsOnLast()
         return (head, try! tail.digitAsAsciiByte())
     }
     
-    fileprivate func digitAsAsciiByte() throws -> Data {
-        return try UInt8(self).asciiValue().toData() as Data
+    private func digitAsAsciiByte() throws -> Data {
+        return try UInt8(self).asciiValue().toData()
     }
     
-    fileprivate func splitDigitsOnLast() -> (head: Int, tail: Int) {
+    private func splitDigitsOnLast() -> (head: Int, tail: Int) {
         return (self / 10, self % 10)
     }
     
-    static func fromAsciiData(_ data: Data) throws -> Int {
-        if data.count == 0 {
-            return 0
+    init(asciiData data: Data) throws {
+        guard data.count > 0 else {
+            self = 0
+            return
         }
-        let (headOfData, decodedLastByte) = try self.splitDataAndDecodeLastByte(data)
-        let resultOfDecodingTheHead = try self.fromAsciiData(headOfData)
-        return decodedLastByte + ( 10 * resultOfDecodingTheHead )
+        let (headOfData, decodedLastByte) = try Int.splitDataAndDecodeLastByte(data)
+        let resultOfDecodingTheHead = try Int(asciiData: headOfData)
+        self = decodedLastByte + ( 10 * resultOfDecodingTheHead )
     }
     
-    fileprivate static func splitDataAndDecodeLastByte(_ data: Data) throws -> (Data, Int) {
-        let (headOfData, lastByte) = self.splitDataBeforeLastByte(data)
+    private static func splitDataAndDecodeLastByte(_ data: Data) throws -> (Data, Int) {
+        let (headOfData, lastByte) = splitDataBeforeLastByte(data)
         let decodedLastByte = try lastByte.fromAsciiValue()
         return (headOfData, Int(decodedLastByte))
     }
     
-    fileprivate static func splitDataBeforeLastByte(_ data: Data) -> (Data, UInt8) {
+    private static func splitDataBeforeLastByte(_ data: Data) -> (Data, UInt8) {
+        let headOfData = data[ 0 ..< data.endIndex-1 ]
         let lastByte = data.last!
-        let range = Range(uncheckedBounds: (lower: data.startIndex,
-                                            upper: data.endIndex.advanced(by: -1)))
-        let headOfData = data.subdata(in: range)
         return (headOfData, lastByte)
     }
 }
@@ -83,7 +81,6 @@ public extension Int {
         let digit = Int(try asciiDigit.fromAsciiValue())
         return self*10 + digit
     }
-    
 }
 
 public extension Character {
@@ -93,7 +90,7 @@ public extension Character {
         if !unicodeScalarCodePoint.isASCII {
             throw AsciiError.invalid
         }
-        return UInt8(ascii: unicodeScalarCodePoint).toData() as Data
+        return UInt8(ascii: unicodeScalarCodePoint).toData()
     }
     
     func unicodeScalarCodePoint() -> UnicodeScalar {
@@ -101,21 +98,19 @@ public extension Character {
         let scalars = characterString.unicodeScalars
         return scalars[scalars.startIndex]
     }
-    
 }
 
 public extension String {
     
     init?(asciiData: Data?) {
         if asciiData == nil { return nil }
-        self.init(data: asciiData!, encoding: String.Encoding.ascii)
+        self.init(data: asciiData!, encoding: .ascii)
     }
     
     func asciiValue() throws -> Data {
-        guard let result = (self as NSString).data(using: String.Encoding.ascii.rawValue) else {
+        guard let result = self.data(using: .ascii) else {
             throw AsciiError.invalid
         }
         return result
     }
-    
 }

@@ -48,9 +48,7 @@ class BEncoderTests: XCTestCase {
     func testEncodeByteString() {
         let byteString = Data(bytes: [ 1, 2, 3, 255, 0])
         let data = try! BEncoder.encode(byteString)
-        let expectedResult = try! (NSData(data: Character("5").asciiValue()) as Data)
-            .andData(BEncoder.StringSizeDelimiterToken)
-            .andData(byteString)
+        let expectedResult = try! Character("5").asciiValue() + BEncoder.StringSizeDelimiterToken + byteString
         XCTAssertEqual(data, expectedResult)
     }
     

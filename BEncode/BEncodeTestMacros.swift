@@ -56,13 +56,13 @@ public func XCTAssertEqual<T>(_ expression1: @autoclosure () throws -> [T],
     }
 }
 
-public func XCTAssertEqual<T, E>(_ expression1: @autoclosure () throws -> [E:T],
-                                 _ expression2: @autoclosure () throws -> [E:T],
+public func XCTAssertEqual<T, E>(_ expression1: @autoclosure () throws -> [E: T],
+                                 _ expression2: @autoclosure () throws -> [E: T],
                                  _ message: @autoclosure () -> String = "",
                                  file: StaticString = #file,
                                  line: UInt = #line) {
-    let dictionary1: [E:T] = try! expression1()
-    let dictionary2: [E:T] = try! expression2()
+    let dictionary1: [E: T] = try! expression1()
+    let dictionary2: [E: T] = try! expression2()
     XCTAssertEqual(dictionary1.count, dictionary2.count)
     
     let keys1 = [E](dictionary1.keys)

@@ -11,17 +11,6 @@ import Foundation
 public typealias Byte = UInt8
 
 public extension Data {
-    
-    func dataByAppendingData(_ data: Data) -> Data {
-        let result = (self as NSData).mutableCopy() as! NSMutableData
-        result.append(data)
-        return result as Data
-    }
-    
-    func andData(_ data: Data) -> Data {
-        return self.dataByAppendingData(data)
-    }
-    
     func toUInt8() -> UInt8 {
         return self[0]
     }
