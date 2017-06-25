@@ -12,23 +12,23 @@ import XCTest
 class NSDataByteStreamTests: XCTestCase {
     
     func testCanCreateByteStreamWithData() {
-        let _ = NSDataByteStream(data: NSData())
+        let _ = NSDataByteStream(data: Data())
     }
     
     func testCannotGetAnyBytesFromEmptyData() {
-        let byteStream = NSDataByteStream(data: NSData())
+        let byteStream = NSDataByteStream(data: Data())
         let byte = byteStream.nextByte()
         XCTAssertNil(byte)
     }
     
     func testCanGetFirstByte() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5]))
         let byte = byteStream.nextByte()
         XCTAssertEqual(byte, 5)
     }
     
     func testCanGetFirstAndSecondByte() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6]))
         let byte1 = byteStream.nextByte()
         let byte2 = byteStream.nextByte()
         XCTAssertEqual(byte1, 5)
@@ -36,7 +36,7 @@ class NSDataByteStreamTests: XCTestCase {
     }
     
     func testCannotGetMoreBytesThanExist() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6]))
         let byte1 = byteStream.nextByte()
         let byte2 = byteStream.nextByte()
         let byte3 = byteStream.nextByte()
@@ -46,61 +46,61 @@ class NSDataByteStreamTests: XCTestCase {
     }
     
     func testCanGetMultipleBytes() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7]))
         let bytes = byteStream.nextBytes(2)
-        XCTAssertEqual(bytes, NSData(byteArray: [5, 6]))
+        XCTAssertEqual(bytes, Data(bytes: [5, 6]))
     }
     
     func testCanGetAllBytes() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7]))
         let bytes = byteStream.nextBytes(3)
-        XCTAssertEqual(bytes, NSData(byteArray: [5, 6, 7]))
+        XCTAssertEqual(bytes, Data(bytes: [5, 6, 7]))
     }
     
     func testCanGet0Bytes() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7]))
         let bytes = byteStream.nextBytes(0)
-        XCTAssertEqual(bytes, NSData())
+        XCTAssertEqual(bytes, Data())
     }
     
     func testCannotGetTooManyBytes() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7]))
         let bytes = byteStream.nextBytes(4)
         XCTAssertNil(bytes)
     }
     
     func testCanGetDataMultipleTimes() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7, 8]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7, 8]))
         let bytes1 = byteStream.nextBytes(2)
         let bytes2 = byteStream.nextBytes(2)
-        XCTAssertEqual(bytes1, NSData(byteArray: [5, 6]))
-        XCTAssertEqual(bytes2, NSData(byteArray: [7, 8]))
+        XCTAssertEqual(bytes1, Data(bytes: [5, 6]))
+        XCTAssertEqual(bytes2, Data(bytes: [7, 8]))
     }
     
     func testCanGetDataAndByte() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7]))
         let bytes = byteStream.nextBytes(2)
         let byte = byteStream.nextByte()
-        XCTAssertEqual(bytes, NSData(byteArray: [5, 6]))
+        XCTAssertEqual(bytes, Data(bytes: [5, 6]))
         XCTAssertEqual(byte, UInt8(7))
     }
     
     func testCanAdvanceForward1Byte() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7, 8]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7, 8]))
         byteStream.advanceBy(1)
         let byte = byteStream.nextByte()
         XCTAssertEqual(byte, 6)
     }
     
     func testCanAdvanceForwardMultipleBytes() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7, 8]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7, 8]))
         byteStream.advanceBy(3)
         let byte = byteStream.nextByte()
         XCTAssertEqual(byte, 8)
     }
     
     func testCanAdvanceBackward1Byte() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7, 8]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7, 8]))
         
         var byte = byteStream.nextByte()
         XCTAssertEqual(byte, 5)
@@ -111,7 +111,7 @@ class NSDataByteStreamTests: XCTestCase {
     }
     
     func testCanAdvanceBackwardMultipleBytes() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7, 8]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7, 8]))
         
         var byte = byteStream.nextByte()
         byte = byteStream.nextByte()
@@ -123,13 +123,13 @@ class NSDataByteStreamTests: XCTestCase {
     }
     
     func testAdvanceForwardTooFarStopsAtEnd() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7, 8]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7, 8]))
         byteStream.advanceBy(999)
         XCTAssertEqual(byteStream.currentIndex, 4)
     }
     
     func testAdvanceBackTooFarStopsAtBeggining() {
-        let byteStream = NSDataByteStream(data: NSData(byteArray: [5, 6, 7, 8]))
+        let byteStream = NSDataByteStream(data: Data(bytes: [5, 6, 7, 8]))
         byteStream.advanceBy(-999)
         XCTAssertEqual(byteStream.currentIndex, 0)
     }

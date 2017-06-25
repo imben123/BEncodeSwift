@@ -25,8 +25,8 @@ class BytesTests: XCTestCase {
         let integer: UInt8 = 123
         let data = integer.toData()
         
-        let pointer = UnsafePointer<Byte>(data.bytes)
-        let value: Byte = pointer.memory
+        let pointer = (data as NSData).bytes.bindMemory(to: Byte.self, capacity: data.count)
+        let value: UInt8 = pointer.pointee
         XCTAssertEqual(value, integer)
     }
     
@@ -36,29 +36,9 @@ class BytesTests: XCTestCase {
         doTestForIntegerFromData(UInt8.max)
     }
     
-    func doTestForIntegerFromData(integer: UInt8) {
+    func doTestForIntegerFromData(_ integer: UInt8) {
         let data = integer.toData()
-        let result = UInt8.fromData(data)
+        let result = data.toUInt8()
         XCTAssertEqual(result, integer)
-    }
-    
-    func testGetByteAtIndex() {
-        let data = NSData(byteArray: [0,1,2,3,4,5])
-        for i: Byte in 0...5 {
-            XCTAssertEqual(data[Int(i)], i)
-        }
-    }
-    
-    func testOutOfBoundsExceptionOnInvalidIndex() {
-        let data = NSData(byteArray: [0,1,2,3,4,5])
-        
-        let error1 = data[999]
-        XCTAssertNil(error1)
-        
-        let error2 = data[6]
-        XCTAssertNil(error2)
-        
-        let error3 = data[-1]
-        XCTAssertNil(error3)
     }
 }

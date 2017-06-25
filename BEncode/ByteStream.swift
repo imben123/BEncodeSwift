@@ -14,10 +14,10 @@ public protocol ByteStream {
     
     func nextByte() -> Byte?
     
-    func nextBytes(numberOfBytes: Int) -> NSData?
+    func nextBytes(_ numberOfBytes: Int) -> Data?
 
-    func indexIsValid(index: Int) -> Bool
+    func indexIsValid(_ index: Int) -> Bool
     
-    func advanceBy(numberOfBytes: Int)
+    func advanceBy(_ numberOfBytes: Int)
 
 }

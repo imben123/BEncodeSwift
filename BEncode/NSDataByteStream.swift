@@ -10,56 +10,50 @@ import Foundation
 
 class NSDataByteStream: ByteStream {
     
-    var currentIndex = 0
-    private let data: NSData
-    private let length: Int
-    private var pointer: UnsafePointer<Byte>
+    var currentIndex: Data.Index
+    fileprivate let data: Data
+    fileprivate let length: Int
     
-    init(data: NSData) {
+    init(data: Data) {
         self.data = data
-        self.pointer = UnsafePointer<Byte>(data.bytes)
-        self.length = data.length
+        self.length = data.count
+        self.currentIndex = data.startIndex
     }
     
     func nextByte() -> Byte? {
-        if self.currentIndex == self.length {
+        if currentIndex == length {
             return nil
         }
-        let result = self.pointer.memory
-        self.advancePointer(1)
+        let result = data[currentIndex]
+        currentIndex += 1
         return result
     }
     
-    private func advancePointer(numberOfBytes: Int) {
-        self.pointer = self.pointer.advancedBy(numberOfBytes)
-        self.currentIndex += numberOfBytes
-    }
-    
-    func nextBytes(numberOfBytes: Int) -> NSData? {
-        if !self.indexIsValid(self.currentIndex + numberOfBytes) {
+    func nextBytes(_ numberOfBytes: Int) -> Data? {
+        if !indexIsValid(currentIndex + numberOfBytes) {
             return nil
         }
-        let result = self.data.subdataWithRange(NSMakeRange(self.currentIndex, numberOfBytes))
-        self.advancePointer(numberOfBytes)
+        let range = Range<Data.Index>(uncheckedBounds: (lower: currentIndex,
+                                                        upper: currentIndex.advanced(by: numberOfBytes)))
+        let result = data.subdata(in: range)
+        currentIndex += numberOfBytes
         return result
     }
     
-    func indexIsValid(index: Int) -> Bool {
-        return index >= 0 && index <= self.length
+    func indexIsValid(_ index: Int) -> Bool {
+        return index >= 0 && index <= length
     }
     
-    func advanceBy(numberOfBytes: Int) {
+    func advanceBy(_ numberOfBytes: Int) {
         
-        let finalIndex = self.currentIndex + numberOfBytes
+        let finalIndex = currentIndex + numberOfBytes
         
-        if finalIndex > self.length {
-            self.advancePointer(self.length - self.currentIndex)
+        if finalIndex > length {
+            currentIndex = length
         } else if finalIndex < 0 {
-            self.advancePointer(-self.currentIndex)
+            currentIndex = 0
         } else {
-            self.advancePointer(numberOfBytes)
+            currentIndex += numberOfBytes
         }
-        
     }
-    
 }
