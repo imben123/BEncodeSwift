@@ -183,7 +183,7 @@ class BEncoderTests: XCTestCase {
         ]
         
         assertExceptionThrown(BEncoderException.invalidAscii) {
-            try BEncoder.encodeDictionary(bEncodedDataDictionary)
+            let _ = try BEncoder.encodeDictionary(bEncodedDataDictionary)
         }
 
     }
@@ -298,14 +298,14 @@ class BEncoderTests: XCTestCase {
         let expectedResultArray: [UInt8] = [
             100,                    // d
             
-            51, 58, 98,  97,  122,  // 3:baz
-            51, 58, 0,   7,   255,  // 3:\0x00\0x07\0xFF
+            51, 58, 102, 111, 111,  // 3:foo
+            51, 58, 98,  97,  114,  // 3:bar
             
             49, 58, 1,              // 1:\0x1
             105, 49, 101,           // i1e
             
-            51, 58, 102, 111, 111,  // 3:foo
-            51, 58, 98,  97,  114,  // 3:bar
+            51, 58, 98,  97,  122,  // 3:baz
+            51, 58, 0,   7,   255,  // 3:\0x00\0x07\0xFF
             
             101                     // e
         ]

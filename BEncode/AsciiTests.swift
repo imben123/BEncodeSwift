@@ -160,7 +160,7 @@ class AssciiTests: XCTestCase {
     
     func doTestDecodeAsciiDigitData(_ digit: UInt8) {
         let data = try! digit.asciiValue().toData()
-        let result = try! UInt8.fromData(data).fromAsciiValue()
+        let result = try! data.toUInt8().fromAsciiValue()
         XCTAssertEqual(digit, result)
     }
     

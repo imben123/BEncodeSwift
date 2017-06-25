@@ -32,26 +32,26 @@ class BEncoderDecodeTests: XCTestCase {
     
     func testExceptionThrownForIntIfFirstCharacterNotLowerCaseI() {
         assertExceptionThrown(BEncoderException.invalidBEncode) {
-            try BEncoder.decodeInteger("x5e".asciiValue())
+            let _ = try BEncoder.decodeInteger("x5e".asciiValue())
         }
     }
     
     func testExceptionThrownForIntIfLastCharacterNotLowerCaseE() {
         assertExceptionThrown(BEncoderException.invalidBEncode) {
-            try BEncoder.decodeInteger("i5x".asciiValue())
+            let _ = try BEncoder.decodeInteger("i5x".asciiValue())
         }
     }
     
     func testExceptionThrownForIntIfMissingLastCharacter() {
         assertExceptionThrown(BEncoderException.invalidBEncode) {
-            try BEncoder.decodeInteger("i5".asciiValue())
+            let _ = try BEncoder.decodeInteger("i5".asciiValue())
         }
     }
     
     func testExceptionThrownForIntIfNotValidNumber() {
         assertExceptionThrown(BEncoderException.invalidBEncode) {
-            try BEncoder.decodeInteger("ixe".asciiValue())
-            try BEncoder.decodeInteger("i1x1e".asciiValue())
+            let _ = try BEncoder.decodeInteger("ixe".asciiValue())
+            let _ = try BEncoder.decodeInteger("i1x1e".asciiValue())
         }
     }
 

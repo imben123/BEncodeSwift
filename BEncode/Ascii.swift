@@ -35,7 +35,7 @@ public extension Int {
     func digitsInAscii() -> Data {
         let (head, tailByte) = self.splitAndAsciiEncodeLastDigit()
         if head > 0 {
-            return head.digitsInAscii().dataByAppendingData(tailByte)
+            return head.digitsInAscii() + tailByte
         }
         return tailByte
     }

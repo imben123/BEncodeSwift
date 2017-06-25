@@ -12,6 +12,22 @@ enum BEncoderTestError: Error {
     case InvalidType
 }
 
+public func XCTAssertEqual<T>(_ expression1: @autoclosure () throws -> [[T]],
+                           _ expression2: @autoclosure () throws -> [[T]],
+                           _ message: @autoclosure () -> String = "",
+                           file: StaticString = #file,
+                           line: UInt = #line) {
+    let array1: [[T]] = try! expression1()
+    let array2: [[T]] = try! expression2()
+    XCTAssertEqual(array1.count, array2.count)
+    for i in 0..<array1.count {
+        let element1 = array1[i]
+        let element2 = array2[i]
+        
+        XCTAssertEqual(element1, element2)
+    }
+}
+
 public func XCTAssertEqual<T>(_ expression1: @autoclosure () throws -> [T],
                            _ expression2: @autoclosure () throws -> [T],
                            _ message: @autoclosure () -> String = "",

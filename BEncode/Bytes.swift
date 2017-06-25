@@ -22,6 +22,9 @@ public extension Data {
         return self.dataByAppendingData(data)
     }
     
+    func toUInt8() -> UInt8 {
+        return self[0]
+    }
 }
 
 public extension UInt8 {
@@ -30,9 +33,7 @@ public extension UInt8 {
         return Data(bytes: [self])
     }
     
-    static func fromData(_ byte: Data) -> UInt8 {
-        let pointer = (byte as NSData).bytes.bindMemory(to: UInt8.self, capacity: byte.count)
-        return pointer.pointee
+    init(data: Data) {
+        self = data.toUInt8()
     }
-    
 }

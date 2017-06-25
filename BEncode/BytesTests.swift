@@ -38,7 +38,7 @@ class BytesTests: XCTestCase {
     
     func doTestForIntegerFromData(_ integer: UInt8) {
         let data = integer.toData()
-        let result = UInt8.fromData(data)
+        let result = data.toUInt8()
         XCTAssertEqual(result, integer)
     }
     
@@ -47,18 +47,5 @@ class BytesTests: XCTestCase {
         for i: UInt8 in 0...5 {
             XCTAssertEqual(data[Int(i)], i)
         }
-    }
-    
-    func testOutOfBoundsExceptionOnInvalidIndex() {
-        let data = Data(bytes: [0,1,2,3,4,5])
-        
-        let error1 = data[999]
-        XCTAssertNil(error1)
-        
-        let error2 = data[6]
-        XCTAssertNil(error2)
-        
-        let error3 = data[-1]
-        XCTAssertNil(error3)
     }
 }
