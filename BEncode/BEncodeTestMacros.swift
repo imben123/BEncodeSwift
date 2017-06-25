@@ -13,10 +13,10 @@ enum BEncoderTestError: Error {
 }
 
 public func XCTAssertEqual<T>(_ expression1: @autoclosure () throws -> [[T]],
-                           _ expression2: @autoclosure () throws -> [[T]],
-                           _ message: @autoclosure () -> String = "",
-                           file: StaticString = #file,
-                           line: UInt = #line) {
+                              _ expression2: @autoclosure () throws -> [[T]],
+                              _ message: @autoclosure () -> String = "",
+                              file: StaticString = #file,
+                              line: UInt = #line) {
     let array1: [[T]] = try! expression1()
     let array2: [[T]] = try! expression2()
     XCTAssertEqual(array1.count, array2.count)
@@ -29,10 +29,10 @@ public func XCTAssertEqual<T>(_ expression1: @autoclosure () throws -> [[T]],
 }
 
 public func XCTAssertEqual<T>(_ expression1: @autoclosure () throws -> [T],
-                           _ expression2: @autoclosure () throws -> [T],
-                           _ message: @autoclosure () -> String = "",
-                           file: StaticString = #file,
-                           line: UInt = #line) {
+                              _ expression2: @autoclosure () throws -> [T],
+                              _ message: @autoclosure () -> String = "",
+                              file: StaticString = #file,
+                              line: UInt = #line) {
     let array1: [T] = try! expression1()
     let array2: [T] = try! expression2()
     XCTAssertEqual(array1.count, array2.count)
@@ -56,11 +56,11 @@ public func XCTAssertEqual<T>(_ expression1: @autoclosure () throws -> [T],
     }
 }
 
-public func XCTAssertEqual<T, E : Equatable>(_ expression1: @autoclosure () throws -> [E:T],
-                           _ expression2: @autoclosure () throws -> [E:T],
-                           _ message: @autoclosure () -> String = "",
-                           file: StaticString = #file,
-                           line: UInt = #line) {
+public func XCTAssertEqual<T, E>(_ expression1: @autoclosure () throws -> [E:T],
+                                 _ expression2: @autoclosure () throws -> [E:T],
+                                 _ message: @autoclosure () -> String = "",
+                                 file: StaticString = #file,
+                                 line: UInt = #line) {
     let dictionary1: [E:T] = try! expression1()
     let dictionary2: [E:T] = try! expression2()
     XCTAssertEqual(dictionary1.count, dictionary2.count)
