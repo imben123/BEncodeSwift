@@ -40,6 +40,19 @@ public extension UInt8 {
     init(data: Data) {
         self = data.toUInt8()
     }
+    
+    init(bits: (Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool)) {
+        var result: UInt8 = 0
+        result += bits.7 ? 1 : 0
+        result += bits.6 ? 2 : 0
+        result += bits.5 ? 4 : 0
+        result += bits.4 ? 8 : 0
+        result += bits.3 ? 16 : 0
+        result += bits.2 ? 32 : 0
+        result += bits.1 ? 64 : 0
+        result += bits.0 ? 128 : 0
+        self = result
+    }
 }
 
 public extension UInt16 {

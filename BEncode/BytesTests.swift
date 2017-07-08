@@ -21,6 +21,15 @@ class BytesTests: XCTestCase {
         super.tearDown()
     }
     
+    func test_byteFromBits() {
+        let _0 = UInt8(bits: (false,false,false,false,false,false,false,false))
+        let _255 = UInt8(bits: (true,true,true,true,true,true,true,true))
+        let _69 = UInt8(bits: (false,true,false,false,false,true,false,true))
+        XCTAssertEqual(_69, 69)
+        XCTAssertEqual(_0, 0)
+        XCTAssertEqual(_255, 255)
+    }
+    
     func testEncode8BitInteger() {
         let integer: UInt8 = 123
         let data = integer.toData()
