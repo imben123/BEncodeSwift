@@ -48,17 +48,17 @@ public extension BEncoder {
      Convenience method to decode NSData.
      */
     public class func decode(_ data: Data) throws -> Any {
-        return try decode(NSDataByteStream(data: data))
+        return try decode(DataByteStream(data: data))
     }
     
     public class func decode(_ data: Data, decodeDictionariesWithStringKeys stringKeys: Bool) throws -> Any {
-        return try decode(NSDataByteStream(data: data), decodeDictionariesWithStringKeys: stringKeys)
+        return try decode(DataByteStream(data: data), decodeDictionariesWithStringKeys: stringKeys)
     }
     
     // MARK: -
     
     public class func decodeInteger(_ data: Data) throws -> Int {
-        return try decodeInteger(NSDataByteStream(data: data))
+        return try decodeInteger(DataByteStream(data: data))
     }
     
     public class func decodeInteger(_ byteStream: ByteStream) throws -> Int {
@@ -102,7 +102,7 @@ public extension BEncoder {
     }
     
     public class func decodeByteString(_ data: Data) throws -> Data {
-        return try decodeByteString(NSDataByteStream(data: data))
+        return try decodeByteString(DataByteStream(data: data))
     }
     
     public class func decodeByteString(_ byteStream: ByteStream) throws -> Data {
@@ -114,7 +114,7 @@ public extension BEncoder {
     }
 
     public class func decodeString(_ data: Data) throws -> String {
-        return try decodeString(NSDataByteStream(data: data))
+        return try decodeString(DataByteStream(data: data))
     }
 
     public class func decodeString(_ byteStream: ByteStream) throws -> String {
@@ -126,7 +126,7 @@ public extension BEncoder {
     }
     
     public class func decodeList(_ data: Data) throws -> [Any] {
-        return try decodeList(NSDataByteStream(data: data))
+        return try decodeList(DataByteStream(data: data))
     }
     
     public class func decodeList(_ byteStream: ByteStream) throws -> [Any] {
@@ -134,7 +134,7 @@ public extension BEncoder {
     }
     
     public class func decodeList(_ data: Data, decodeDictionariesWithStringKeys stringKeys: Bool) throws -> [Any] {
-        return try decodeList(NSDataByteStream(data: data), decodeDictionariesWithStringKeys:stringKeys)
+        return try decodeList(DataByteStream(data: data), decodeDictionariesWithStringKeys:stringKeys)
     }
     
     public class func decodeList(_ byteStream: ByteStream,
@@ -153,7 +153,7 @@ public extension BEncoder {
     }
     
     public class func decodeDictionary(_ data: Data) throws -> [Data: Any] {
-        return try decodeDictionary(NSDataByteStream(data: data))
+        return try decodeDictionary(DataByteStream(data: data))
     }
     
     public class func decodeDictionary(_ byteStream: ByteStream) throws -> [Data: Any] {
@@ -179,7 +179,7 @@ public extension BEncoder {
     }
     
     public class func decodeStringKeyedDictionary(_ data: Data) throws -> [String: Any] {
-        return try decodeStringKeyedDictionary(NSDataByteStream(data: data))
+        return try decodeStringKeyedDictionary(DataByteStream(data: data))
     }
     
     public class func decodeStringKeyedDictionary(_ byteStream: ByteStream) throws -> [String: Any] {
@@ -205,7 +205,7 @@ public extension BEncoder {
     }
     
     public class func decodeDictionaryKeysOnly(_ data: Data) throws -> [String: Data] {
-        return try decodeDictionaryKeysOnly(NSDataByteStream(data: data))
+        return try decodeDictionaryKeysOnly(DataByteStream(data: data))
     }
     
     public class func decodeDictionaryKeysOnly(_ byteStream: ByteStream) throws -> [String: Data] {

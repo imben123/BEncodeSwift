@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NSDataByteStream: ByteStream {
+class DataByteStream: ByteStream {
     
     var currentIndex: Data.Index
     fileprivate let data: Data
@@ -41,17 +41,17 @@ class NSDataByteStream: ByteStream {
     }
     
     func indexIsValid(_ index: Int) -> Bool {
-        return index >= 0 && index <= length
+        return index >= data.startIndex && index <= data.endIndex
     }
     
     func advanceBy(_ numberOfBytes: Int) {
         
         let finalIndex = currentIndex + numberOfBytes
         
-        if finalIndex > length {
-            currentIndex = length
-        } else if finalIndex < 0 {
-            currentIndex = 0
+        if finalIndex > data.endIndex {
+            currentIndex = data.endIndex
+        } else if finalIndex < data.startIndex {
+            currentIndex = data.startIndex
         } else {
             currentIndex += numberOfBytes
         }
